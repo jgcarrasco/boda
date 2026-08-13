@@ -19,15 +19,16 @@ verify.js       → comparación con la web original (requiere Playwright)
 
 ## 🌐 En producción
 
-**https://jgcarrasco.github.io/boda/**
+**https://bienvenidosanuestraboda.com/**
 
-Desplegada con GitHub Pages (repo `jgcarrasco/boda`, rama `main`).
+Desplegada con GitHub Pages (repo `jgcarrasco/boda`, rama `main`) y dominio
+personalizado. `https://jgcarrasco.github.io/boda/` redirige al dominio principal.
 Para actualizar: haz `git push origin main` y GitHub Pages se actualiza solo.
 
 La vista previa al compartir el enlace usa el sobre proporcionado en
 `assets/sobre.jpeg` (1280×720). Las etiquetas Open Graph/Twitter están en el
 `<head>` de `index.html` y necesitan URLs absolutas; si cambia el dominio,
-actualiza allí `og:url`, `og:image` y `twitter:image`.
+actualiza allí `canonical`, `og:url`, `og:image` y `twitter:image`.
 
 El favicon es el monograma **JyP**, construido con las letras reales del sobre.
 Incluye variantes optimizadas de 16px, 32px, 512px y formato `.ico`.
