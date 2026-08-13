@@ -65,8 +65,7 @@ body {
   max-width: none;
 }
 
-.page,
-.footer {
+.page {
   opacity: 1;
   filter: none;
   transition:
@@ -79,8 +78,7 @@ body.invitation-locked {
   overflow-y: hidden;
   overscroll-behavior: none;
 }
-body.invitation-locked .page,
-body.invitation-locked .footer {
+body.invitation-locked .page {
   opacity: 0;
   filter: blur(3px);
 }
@@ -472,6 +470,18 @@ body.invitation-locked .footer {
   font-family: 'Hertical Smooth'; font-size: 47.9122px; line-height: 43px;
   letter-spacing: -.02em; text-align: center; color: #622c22;
 }
+
+/* «¡Reserva el día!»: latido suave continuo una vez visible la sección. */
+.s3-t1-anim {
+  display: inline-block;
+  transform-origin: 50% 50%;
+  will-change: transform;
+  animation: reserva-breathe 2.8s ease-in-out infinite;
+}
+@keyframes reserva-breathe {
+  0%, 100% { transform: scale(1); text-shadow: 0 0 0 rgba(98, 44, 34, 0); }
+  50%      { transform: scale(1.055); text-shadow: 0 8px 28px rgba(98, 44, 34, .28); }
+}
 .s3-t2 {
   left: 197.8px; top: 383.9px; width: 310.9px;
   font-family: 'Fineday Two'; font-size: 27.576px; line-height: 38.066px;
@@ -606,25 +616,6 @@ body.invitation-locked .footer {
   }
 }
 
-/* ---------- Footer full-width ---------- */
-.footer {
-  width: 100%;
-  padding: 10px max(8px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left));
-  background: #000;
-  color: #fff;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: 12px;
-}
-.footer-inner {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  width: 100%;
-  max-width: 1366px;
-  margin: 0 auto;
-}
-.footer-muted { opacity: .6; }
-
 /* ---------- Discreet pause/resume control after opening ---------- */
 .music-toggle {
   position: fixed;
@@ -719,6 +710,7 @@ body.invitation-opened .music-toggle[data-state='waiting'] {
   .section::after { display: none; }
   .media-el,
   .text-el,
+  .s3-t1-anim,
   .photo-el > .photo-source {
     opacity: 1 !important;
     filter: none !important;
@@ -731,7 +723,6 @@ body.invitation-opened .music-toggle[data-state='waiting'] {
     scale: none !important;
   }
   .page,
-  .footer,
   .invitation-gate,
   .invitation-card,
   .invitation-prompt,

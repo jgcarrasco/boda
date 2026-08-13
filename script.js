@@ -141,7 +141,7 @@
   const invitationGate = document.querySelector('.invitation-gate');
   const invitationOpener = document.querySelector('.invitation-opener');
   const mainContent = document.querySelector('#main-content');
-  const gatedRegions = [mainContent, document.querySelector('.footer')].filter(Boolean);
+  const gatedRegions = [mainContent].filter(Boolean);
 
   let startBackgroundMusic = function () {};
 
