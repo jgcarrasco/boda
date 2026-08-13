@@ -1,4 +1,13 @@
-// Generates index.html + styles.css from the captured layout data
+// LEGACY: generates the first fixed-width replica from captured Canva data.
+// The production page is now hand-maintained because its responsive stage,
+// full-bleed backgrounds and motion system go beyond the captured raw layout.
+// Running the old generator without an explicit flag must never overwrite it.
+if (!process.argv.includes('--legacy-fixed-layout')) {
+  console.log('build.js is archived. The responsive production files are index.html, styles.css and script.js.');
+  console.log('Use --legacy-fixed-layout only if you intentionally want to regenerate the old fixed-width version.');
+  process.exit(0);
+}
+
 const fs = require('fs');
 
 const desktop = require('./reference/true-layout.json');

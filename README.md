@@ -7,14 +7,14 @@ reconstruida a mano con HTML/CSS/JS puro para poder ampliarla (formularios, mapa
 
 ```
 index.html      → la página completa (4 secciones + footer)
-styles.css      → estilos: layout escritorio (1366×768) + layout móvil (390px)
-script.js       → scroll suave + soporte para animaciones al hacer scroll
+styles.css      → canvas full-bleed, layouts desktop/móvil y animaciones
+script.js       → escalado responsive + revelado al hacer scroll
 assets/
   fonts/        → las 3 tipografías usadas (WOFF)
   img/          → las 25 imágenes (fotos, flores, arcos, adornos)
-reference/      → datos de la web original (layouts, capturas, herramientas)
-build.js        → regenera index.html/styles.css a partir de reference/
-verify.js       → comparación pixel a pixel con la web original (requiere playwright)
+reference/      → datos locales de comparación (excluidos del repo público)
+build.js        → generador antiguo protegido; no usar para la versión actual
+verify.js       → comparación con la web original (requiere Playwright)
 ```
 
 ## 🌐 En producción
@@ -40,6 +40,10 @@ python3 -m http.server 8080
 - **Posiciones**: en `styles.css`, cada elemento tiene su clase
   (`.s1-i0 { left: …px; top: …px; width: …px; height: …px }`).
   Hay un bloque para escritorio y otro para móvil (dentro de `@media (max-width: 767px)`).
+  No elimines `.section-stage-shell` ni `.section-stage`: permiten escalar todo
+  el diseño uniformemente y evitan desbordamientos en móviles estrechos.
+- **Animaciones**: `.text-el` controla la entrada de textos, `.media-el` la de
+  imágenes y `script.js` activa cada sección con `IntersectionObserver`.
 - **Imágenes**: reemplaza los ficheros en `assets/img/` manteniendo el nombre,
   o cambia el `src` en `index.html`.
 
@@ -89,7 +93,7 @@ python3 -m http.server 8080
 1. **Formulario de confirmación (RSVP)**: añade un `<form>` en `index.html`
    (por ejemplo dentro o después de la sección «¡reserva el día!»), estilízalo
    con las clases de `styles.css` y conecta el envío a un servicio como
-   Formspree, Google Forms o tu propio backend. En `script.js` hay un esqueleto.
+   Formspree, Google Forms o tu propio backend.
 2. **Mapa del lugar**: pega el iframe de Google Maps de la finca dentro de una
    sección nueva (`.section` con su `--bg`), o en la sección de detalles.
 3. **Cuenta atrás / detalles del evento**: añade bloques `.el` nuevos con las
@@ -106,7 +110,13 @@ python3 -m http.server 8080
 - Las dos fotos de la pareja están en `assets/img/img_00.png` e `img_03.png`
   (son las mismas que hay publicadas; sustitúyelas por las vuestras si queréis
   otra versión).
-- Las hojas/adornos `s1-i3` y `s1-i4` flotan suavemente igual que en la original.
+- Cada sección usa un fondo a ancho completo; el canvas original queda centrado
+  en pantallas grandes y se escala como una sola unidad en pantallas pequeñas.
+- Se probaron viewports de 320, 360, 375, 390, 430, 768, 1024, 1366 y 1920 px:
+  sin scroll horizontal, imágenes rotas ni colisiones entre bloques de texto.
+- Flores, hojas y fotos tienen movimiento ambiental suave inspirado en Canva.
+- Los textos e ilustraciones entran de forma escalonada cuando su sección aparece
+  al hacer scroll. `prefers-reduced-motion` desactiva todo movimiento decorativo.
 - El pie de página es un placeholder negro sencillo: personalízalo a tu gusto.
-- La web original muestra un velo oscuro muy sutil al cargar (7 % → 0 % en 1,4 s,
-  escalonado por sección); se ha reproducido con `section-veil` en `styles.css`.
+- La web original muestra un velo oscuro muy sutil al cargar; se reproduce con
+  `section-veil` al entrar cada sección.
