@@ -54,14 +54,16 @@ python3 -m http.server 8080
 - **Animaciones**: `.text-el` controla la entrada de textos, `.media-el` la de
   imágenes y `script.js` activa cada sección con `IntersectionObserver`.
 - **Imágenes**: reemplaza los ficheros en `assets/img/` manteniendo el nombre,
-  o cambia el `src` en `index.html`.
+  o cambia el `src` en `index.html`. Los dos paneles raster del hero usan
+  `<picture>` con WebP responsive (`-640.webp` / `-1024.webp`) y conservan los
+  PNG como fallback. Si cambias esos paneles, vuelve a generar ambas variantes.
 
 ### Mapa de imágenes (índice → papel)
 
 | Fichero | Sección | Qué es |
 |---|---|---|
-| img_00.png | hero | Foto de la pareja (izquierda) |
-| img_03.png | hero | Foto de la pareja (derecha) |
+| img_00.png + img_00-*.webp | hero | Panel ilustrado de la pareja (izquierda) |
+| img_03.png + img_03-*.webp | hero | Panel de Bogarra (derecha) |
 | img_04.svg | hero | Arco/marco verde oliva sobre la foto derecha |
 | img_05.svg | hero | Planta decorativa (borde derecho) |
 | img_01.svg, img_02.svg | hero | Flores decorativas |
@@ -116,9 +118,10 @@ python3 -m http.server 8080
   y cada sección se hubiera mostrado en pantalla** (la web original recoloca
   algunas imágenes al hacer scroll y al cargar los recursos en alta resolución).
   Por eso las posiciones de `styles.css` coinciden con la web real.
-- Las dos fotos de la pareja están en `assets/img/img_00.png` e `img_03.png`
-  (son las mismas que hay publicadas; sustitúyelas por las vuestras si queréis
-  otra versión).
+- Los paneles raster principales están en `assets/img/img_00.png` e `img_03.png`.
+  Los PNG se mantienen como fallback; navegadores modernos descargan sus WebP
+  responsive, aproximadamente un 88 % más ligeros, y los muestran sólo tras
+  decodificarlos por completo para evitar el pintado vertical.
 - Cada sección usa un fondo a ancho completo; el canvas original queda centrado
   en pantallas grandes y se escala como una sola unidad en pantallas pequeñas.
 - Se probaron viewports de 320, 360, 375, 390, 430, 768, 1024, 1366 y 1920 px:

@@ -51,6 +51,36 @@
   mobileQuery.addEventListener?.('change', requestCanvasSync);
   window.visualViewport?.addEventListener('resize', requestCanvasSync, { passive: true });
 
+  // ---------- Reveal raster panels only after complete decoding ----------
+  const photoSources = Array.from(document.querySelectorAll('.photo-source'));
+
+  function markPhotoDecoded(image) {
+    image.classList.add('is-decoded');
+  }
+
+  function decodePhoto(image) {
+    if (typeof image.decode === 'function') {
+      image.decode().then(
+        function () { markPhotoDecoded(image); },
+        function () { markPhotoDecoded(image); }
+      );
+    } else {
+      markPhotoDecoded(image);
+    }
+  }
+
+  photoSources.forEach(function (image) {
+    // Mark cached images before enabling the hiding rule, preventing a flash.
+    if (image.complete && image.naturalWidth > 0) {
+      markPhotoDecoded(image);
+      return;
+    }
+
+    image.addEventListener('load', function () { decodePhoto(image); }, { once: true });
+    image.addEventListener('error', function () { markPhotoDecoded(image); }, { once: true });
+  });
+  root.classList.add('image-decode-ready');
+
   // ---------- Scroll suave para enlaces internos ----------
   document.addEventListener('click', function (event) {
     const link = event.target.closest('a[href^="#"]');

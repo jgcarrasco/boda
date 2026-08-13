@@ -33,6 +33,16 @@
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
   <link rel="icon" type="image/png" sizes="512x512" href="assets/favicon.png">
   <link rel="apple-touch-icon" sizes="512x512" href="assets/favicon.png">
+
+  <!-- Prioritize only the first hero panel; phones receive the smaller source. -->
+  <link
+    rel="preload"
+    as="image"
+    type="image/webp"
+    href="assets/img/img_00-1024.webp"
+    imagesrcset="assets/img/img_00-640.webp 640w, assets/img/img_00-1024.webp 1024w"
+    imagesizes="(max-width: 389px) 106vw, (max-width: 767px) 413px, (max-width: 1365px) 38vw, 516px"
+    fetchpriority="high">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -43,10 +53,22 @@
   <section class="section section-0 sec-hero" style="--bg:#f7f2ea" aria-label="Portada">
     <div class="section-stage-shell">
       <div class="section-stage">
-        <img class="el media-el s0-i0" src="assets/img/img_00.png" alt="">
+        <picture class="el media-el photo-el s0-i0">
+          <source
+            type="image/webp"
+            srcset="assets/img/img_00-640.webp 640w, assets/img/img_00-1024.webp 1024w"
+            sizes="(max-width: 389px) 106vw, (max-width: 767px) 413px, (max-width: 1365px) 38vw, 516px">
+          <img class="photo-source" src="assets/img/img_00.png" width="1024" height="1536" alt="" loading="eager" fetchpriority="high" decoding="async">
+        </picture>
         <img class="el media-el s0-i1" src="assets/img/img_01.svg" alt="">
         <img class="el media-el s0-i2" src="assets/img/img_02.svg" alt="">
-        <img class="el media-el s0-i3" src="assets/img/img_03.png" alt="">
+        <picture class="el media-el photo-el s0-i3">
+          <source
+            type="image/webp"
+            srcset="assets/img/img_03-640.webp 640w, assets/img/img_03-1024.webp 1024w"
+            sizes="(max-width: 389px) 82vw, (max-width: 767px) 320px, (max-width: 1365px) 38vw, 511px">
+          <img class="photo-source" src="assets/img/img_03.png" width="1023" height="1537" alt="" loading="eager" fetchpriority="low" decoding="async">
+        </picture>
         <img class="el media-el s0-i4" src="assets/img/img_04.svg" alt="">
         <img class="el media-el s0-i5" src="assets/img/img_05.svg" alt="">
       </div>

@@ -145,6 +145,29 @@ body {
   transition-delay: var(--motion-delay, 0ms);
 }
 
+/* The two raster hero panels use WebP via <picture>. Keep a cream placeholder
+   visible until each file has downloaded and decoded completely, avoiding the
+   top-to-bottom paint effect of the original large PNG files. */
+.photo-el {
+  overflow: hidden;
+  background: #f7f2ea;
+}
+.photo-el > .photo-source {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: fill;
+  opacity: 1;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  transition: opacity .36s ease-out;
+}
+.image-decode-ready .photo-el > .photo-source:not(.is-decoded) {
+  opacity: 0;
+}
+
 .text-el {
   opacity: 1;
   filter: blur(0);
@@ -439,7 +462,8 @@ body {
   html { scroll-behavior: auto; }
   .section::after { display: none; }
   .media-el,
-  .text-el {
+  .text-el,
+  .photo-el > .photo-source {
     opacity: 1 !important;
     filter: none !important;
     clip-path: none !important;
