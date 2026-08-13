@@ -1,4 +1,5 @@
 # Datos de análisis local (no se despliegan)
 reference/
 node_modules/
+.venv/
 .DS_Store

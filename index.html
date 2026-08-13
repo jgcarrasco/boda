@@ -143,6 +143,25 @@
   </div>
 </footer>
 
+<!-- Música de fondo. Los navegadores pueden exigir una primera interacción
+     antes de permitir sonido; script.js la activa con el primer toque/swipe. -->
+<audio id="background-music" autoplay loop preload="auto">
+  <source src="assets/audio/love-story.mp3" type="audio/mpeg">
+</audio>
+
+<button
+  class="music-toggle"
+  type="button"
+  data-state="waiting"
+  aria-label="Activar música"
+  aria-pressed="false"
+  title="Activar música">
+  <span class="music-note" aria-hidden="true">♫</span>
+  <span class="music-equalizer" aria-hidden="true">
+    <i></i><i></i><i></i>
+  </span>
+</button>
+
 <script src="script.js"></script>
 </body>
 </html>

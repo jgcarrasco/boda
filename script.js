@@ -135,6 +135,127 @@
     sections.forEach(function (section) { revealObserver.observe(section); });
   }
 
+  // ---------- Seamless background music ----------
+  const music = document.querySelector('#background-music');
+  const musicButton = document.querySelector('.music-toggle');
+
+  if (music && musicButton) {
+    const targetVolume = 0.58;
+    let fadeFrame = 0;
+    let playPending = false;
+    let intentionallyPaused = false;
+
+    function setMusicState(state) {
+      const labels = {
+        playing: 'Pausar música',
+        paused: 'Reanudar música',
+        waiting: 'Activar música'
+      };
+      const label = labels[state] || labels.waiting;
+
+      musicButton.dataset.state = state;
+      musicButton.setAttribute('aria-label', label);
+      musicButton.setAttribute('aria-pressed', state === 'playing' ? 'true' : 'false');
+      musicButton.title = label;
+    }
+
+    function setVolume(value) {
+      try {
+        music.volume = Math.max(0, Math.min(1, value));
+      } catch (_) {
+        // iOS controls media volume at system level; playback still works.
+      }
+    }
+
+    function fadeMusicTo(volume, duration) {
+      window.cancelAnimationFrame(fadeFrame);
+      const initialVolume = Number.isFinite(music.volume) ? music.volume : volume;
+      const startedAt = performance.now();
+
+      function tick(now) {
+        const progress = Math.min(1, (now - startedAt) / duration);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        setVolume(initialVolume + (volume - initialVolume) * eased);
+        if (progress < 1 && !music.paused) {
+          fadeFrame = window.requestAnimationFrame(tick);
+        }
+      }
+
+      fadeFrame = window.requestAnimationFrame(tick);
+    }
+
+    function startMusic() {
+      if (playPending || !music.paused) return;
+      playPending = true;
+      intentionallyPaused = false;
+      setVolume(0.03);
+
+      let playResult;
+      try {
+        // Called once immediately and again directly inside the first user
+        // pointer/key event when autoplay policy blocks the initial attempt.
+        playResult = music.play();
+      } catch (_) {
+        playPending = false;
+        setMusicState('waiting');
+        return;
+      }
+
+      if (playResult && typeof playResult.then === 'function') {
+        playResult.then(function () {
+          playPending = false;
+          setMusicState('playing');
+          fadeMusicTo(targetVolume, 1400);
+        }).catch(function () {
+          playPending = false;
+          setMusicState('waiting');
+        });
+      } else {
+        playPending = false;
+        setMusicState('playing');
+        fadeMusicTo(targetVolume, 1400);
+      }
+    }
+
+    function unlockMusic(event) {
+      if (intentionallyPaused || !music.paused) return;
+      if (event.target.closest && event.target.closest('.music-toggle')) return;
+      startMusic();
+    }
+
+    // A scroll gesture begins with pointerdown, so the music starts naturally
+    // with the guest's first swipe—without a modal or extra confirmation screen.
+    document.addEventListener('pointerdown', unlockMusic, { capture: true, passive: true });
+    document.addEventListener('touchend', unlockMusic, { capture: true, passive: true });
+    document.addEventListener('click', unlockMusic, { capture: true, passive: true });
+    document.addEventListener('keydown', unlockMusic, { capture: true });
+
+    musicButton.addEventListener('click', function () {
+      if (music.paused) {
+        startMusic();
+      } else {
+        intentionallyPaused = true;
+        window.cancelAnimationFrame(fadeFrame);
+        music.pause();
+        setMusicState('paused');
+      }
+    });
+
+    music.addEventListener('playing', function () {
+      setMusicState('playing');
+    });
+    music.addEventListener('pause', function () {
+      if (!music.ended) setMusicState(intentionallyPaused ? 'paused' : 'waiting');
+    });
+    music.addEventListener('error', function () {
+      playPending = false;
+      setMusicState('waiting');
+    });
+
+    setMusicState('waiting');
+    startMusic();
+  }
+
   // Keep the mobile browser chrome in harmony with the section currently shown.
   const themeColor = document.querySelector('meta[name="theme-color"]');
   if (themeColor && 'IntersectionObserver' in window) {

@@ -457,7 +457,81 @@ body {
 }
 .footer-muted { opacity: .6; }
 
-/* Motion accessibility: preserve layout scaling, remove only decorative motion. */
+/* ---------- Floating background-music control ---------- */
+.music-toggle {
+  position: fixed;
+  z-index: 50;
+  right: max(16px, env(safe-area-inset-right));
+  bottom: max(16px, calc(env(safe-area-inset-bottom) + 10px));
+  display: grid;
+  grid-template-columns: 1fr auto;
+  place-items: center;
+  gap: 3px;
+  width: 50px;
+  height: 50px;
+  padding: 0 8px;
+  overflow: hidden;
+  border: 1px solid rgb(98 44 34 / 34%);
+  border-radius: 999px;
+  background: rgb(247 242 234 / 88%);
+  color: #622c22;
+  box-shadow: 0 5px 20px rgb(40 24 18 / 16%);
+  -webkit-backdrop-filter: blur(9px);
+  backdrop-filter: blur(9px);
+  cursor: pointer;
+  opacity: .82;
+  transition: opacity .25s ease, transform .25s ease, background .25s ease;
+  touch-action: manipulation;
+}
+.music-toggle:hover,
+.music-toggle:focus-visible {
+  opacity: 1;
+  transform: translateY(-2px);
+  outline: none;
+}
+.music-toggle:focus-visible {
+  box-shadow: 0 0 0 3px rgb(247 242 234 / 70%), 0 0 0 5px rgb(98 44 34 / 55%);
+}
+.music-note {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 24px;
+  line-height: 1;
+  transform: translateY(-1px);
+}
+.music-equalizer {
+  display: flex;
+  align-items: end;
+  gap: 1.5px;
+  width: 9px;
+  height: 16px;
+}
+.music-equalizer i {
+  display: block;
+  width: 2px;
+  height: 4px;
+  border-radius: 2px;
+  background: currentColor;
+  transform-origin: center bottom;
+  animation: music-bar .72s ease-in-out infinite alternate;
+  animation-play-state: paused;
+}
+.music-equalizer i:nth-child(2) { height: 9px; animation-delay: -.38s; }
+.music-equalizer i:nth-child(3) { height: 6px; animation-delay: -.16s; }
+.music-toggle[data-state='playing'] .music-equalizer i { animation-play-state: running; }
+.music-toggle[data-state='waiting'] {
+  animation: music-ready-pulse 2.2s ease-out infinite;
+}
+.music-toggle[data-state='paused'] .music-equalizer { opacity: .38; }
+@keyframes music-bar {
+  from { transform: scaleY(.5); }
+  to   { transform: scaleY(1.45); }
+}
+@keyframes music-ready-pulse {
+  0%, 55%, 100% { box-shadow: 0 5px 20px rgb(40 24 18 / 16%), 0 0 0 0 rgb(98 44 34 / 20%); }
+  78% { box-shadow: 0 5px 20px rgb(40 24 18 / 16%), 0 0 0 9px rgb(98 44 34 / 0%); }
+}
+
+/* Motion accessibility: preserve layout scaling, remove decorative motion. */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .section::after { display: none; }
@@ -473,5 +547,10 @@ body {
     translate: none !important;
     rotate: none !important;
     scale: none !important;
+  }
+  .music-toggle,
+  .music-equalizer i {
+    animation: none !important;
+    transition: none !important;
   }
 }
