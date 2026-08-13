@@ -1,0 +1,4 @@
+# Datos de análisis local (no se despliegan)
+reference/
+node_modules/
+.DS_Store

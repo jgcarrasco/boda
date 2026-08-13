@@ -1,0 +1,350 @@
+/* ============================================================
+   BODA — réplica de la web de Canva (tesperamosennuestraboda)
+   Diseño original: 1366 x 768 por sección (escritorio)
+   ============================================================ */
+
+@font-face {
+  font-family: 'Youngest Serif';
+  src: url('assets/fonts/bd39ead65e61fbef57749b39315a1e9e.woff') format('woff');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Hertical Smooth';
+  src: url('assets/fonts/0acfbf3b56083bf20a257e3b889c7969.woff') format('woff');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Fineday Two';
+  src: url('assets/fonts/35898c795e855df4b7711ca364518e1c.woff') format('woff');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  background: #fff;
+  font-family: 'Youngest Serif', serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.page { width: 1366px; margin: 0 auto; }
+
+/* ---------- Secciones ---------- */
+.section {
+  position: relative;
+  width: 1366px;
+  height: 768px;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+/* Velo sutil de entrada (igual que la original) */
+.section::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgb(15 16 21);
+  opacity: 0;
+  pointer-events: none;
+  animation: section-veil 1.4s ease-out forwards;
+}
+.section-1::after { animation-delay: 0.15s; }
+.section-2::after { animation-delay: 0.3s; }
+.section-3::after { animation-delay: 0.45s; }
+@keyframes section-veil {
+  0%   { opacity: 0.07; }
+  100% { opacity: 0; }
+}
+
+/* Elementos */
+.el { position: absolute; }
+
+/* s0-i0 */
+.s0-i0 { left: 62.3px; top: 0px; width: 516.1px; height: 774.1px; }
+
+/* s0-i1 */
+.s0-i1 { left: 522px; top: 350.8px; width: 56.3px; height: 46.4px; }
+
+/* s0-i2 */
+.s0-i2 { left: 114.4px; top: 341.1px; width: 67.4px; height: 87.8px; }
+
+/* s0-i3 */
+.s0-i3 { left: 751.2px; top: 13.7px; width: 510.6px; height: 767.1px; }
+
+/* s0-i4 */
+.s0-i4 { left: 737.5px; top: 7.1px; width: 524.3px; height: 749px; }
+
+/* s0-i5 */
+.s0-i5 { left: 1213.4px; top: 45.9px; width: 96.7px; height: 154.7px; }
+
+/* s1-i0 */
+.s1-i0 { left: 775.7px; top: 42.5px; width: 418px; height: 616.5px; }
+
+/* s1-i1 */
+.s1-i1 { left: 190px; top: 42.5px; width: 423.7px; height: 624.8px; }
+
+/* s1-i2 */
+.s1-i2 { left: 313.5px; top: 89.3px; width: 148px; height: 228.1px; }
+
+/* s1-i3 */
+.s1-i3 { left: 443.1px; top: 543px; width: 80.2px; height: 89px; }
+
+/* s1-i4 */
+.s1-i4 { left: 253.4px; top: 519.9px; width: 57.9px; height: 68.9px; }
+
+/* s1-i5 */
+.s1-i5 { left: 901.9px; top: 118.1px; width: 165.4px; height: 170.6px; }
+
+/* s1-i6 */
+.s1-i6 { left: 1035.8px; top: 538.7px; width: 63.2px; height: 82.1px; }
+
+/* s1-t0 */
+.s1-t0 {
+  left: 257.4px; top: 362.9px; width: 289px;
+  font-family: 'Youngest Serif';
+  font-size: 21.3333px;
+  line-height: 27px;
+  letter-spacing: 0px;
+  text-align: center;
+  color: #000000;
+}
+
+/* s1-t1 */
+.s1-t1 {
+  left: 257.4px; top: 470.9px; width: 289px;
+  font-family: 'Youngest Serif';
+  font-size: 21.3333px;
+  line-height: 27px;
+  letter-spacing: 0px;
+  text-align: center;
+  color: #000000;
+}
+
+/* s1-t2 */
+.s1-t2 {
+  left: 285.1px; top: 321.6px; width: 233px;
+  font-family: 'Hertical Smooth';
+  font-size: 28.0001px;
+  line-height: 25px;
+  letter-spacing: -0.560002px;
+  text-align: center;
+  color: #e3d7c5;
+}
+
+/* s1-t3 */
+.s1-t3 {
+  left: 839.9px; top: 321.6px; width: 289px;
+  font-family: 'Hertical Smooth';
+  font-size: 28.0001px;
+  line-height: 25px;
+  letter-spacing: -0.560002px;
+  text-align: center;
+  color: #e3d7c5;
+}
+
+/* s1-t4 */
+.s1-t4 {
+  left: 840.2px; top: 361.9px; width: 289px;
+  font-family: 'Youngest Serif';
+  font-size: 21.3333px;
+  line-height: 29px;
+  letter-spacing: 0px;
+  text-align: center;
+  color: #000000;
+}
+
+/* s2-i0 */
+.s2-i0 { left: 192.8px; top: 47.8px; width: 423.7px; height: 624.8px; }
+
+/* s2-i1 */
+.s2-i1 { left: 886.9px; top: 106.5px; width: 165.4px; height: 211.8px; }
+
+/* s2-i2 */
+.s2-i2 { left: 778.3px; top: 55.5px; width: 423.7px; height: 624.8px; }
+
+/* s2-i3 */
+.s2-i3 { left: 304.9px; top: 569.6px; width: 192.3px; height: 30.1px; }
+
+/* s2-i4 */
+.s2-i4 { left: 284.8px; top: 135px; width: 239.6px; height: 183.3px; }
+
+/* s2-i5 */
+.s2-i5 { left: 942.9px; top: 524.3px; width: 116.4px; height: 121.7px; }
+
+/* s2-t0 */
+.s2-t0 {
+  left: 845.4px; top: 347.1px; width: 289px;
+  font-family: 'Hertical Smooth';
+  font-size: 28.0001px;
+  line-height: 25px;
+  letter-spacing: -0.560002px;
+  text-align: center;
+  color: #6e6f51;
+}
+
+/* s2-t1 */
+.s2-t1 {
+  left: 845.7px; top: 403.2px; width: 289px;
+  font-family: 'Youngest Serif';
+  font-size: 21.3333px;
+  line-height: 29px;
+  letter-spacing: 0px;
+  text-align: center;
+  color: #000000;
+}
+
+/* s2-t2 */
+.s2-t2 {
+  left: 256.2px; top: 338.7px; width: 289px;
+  font-family: 'Hertical Smooth';
+  font-size: 28.0001px;
+  line-height: 25px;
+  letter-spacing: -0.560002px;
+  text-align: center;
+  color: #6e6f51;
+}
+
+/* s2-t3 */
+.s2-t3 {
+  left: 256.5px; top: 388.7px; width: 289px;
+  font-family: 'Youngest Serif';
+  font-size: 21.3333px;
+  line-height: 29px;
+  letter-spacing: 0px;
+  text-align: center;
+  color: #000000;
+}
+
+/* s3-i0 */
+.s3-i0 { left: 904px; top: 237px; width: 288.2px; height: 294px; }
+
+/* s3-i1 */
+.s3-i1 { left: 366.3px; top: 471.2px; width: 110.2px; height: 136.4px; }
+
+/* s3-i2 */
+.s3-i2 { left: 270px; top: 100.1px; width: 144.8px; height: 107.2px; }
+
+/* s3-i3 */
+.s3-i3 { left: 254.6px; top: 471.2px; width: 111.7px; height: 166.7px; }
+
+/* s3-i4 */
+.s3-i4 { left: 414.8px; top: 300px; width: 61.6px; height: 54.8px; }
+
+/* s3-i5 */
+.s3-i5 { left: 161.9px; top: 30.5px; width: 361px; height: 55.9px; }
+
+/* s3-t0 */
+.s3-t0 {
+  left: 212.2px; top: 231.4px; width: 281.9px;
+  font-family: 'Youngest Serif';
+  font-size: 26.8038px;
+  line-height: 37px;
+  letter-spacing: 0px;
+  text-align: center;
+  color: #f4eee6;
+}
+
+/* s3-t1 */
+.s3-t1 {
+  left: 776.7px; top: 568.2px; width: 512px;
+  font-family: 'Hertical Smooth';
+  font-size: 47.9122px;
+  line-height: 43px;
+  letter-spacing: -0.958244px;
+  text-align: center;
+  color: #622c22;
+}
+
+/* s3-t2 */
+.s3-t2 {
+  left: 197.8px; top: 383.9px; width: 310.9px;
+  font-family: 'Fineday Two';
+  font-size: 26.8038px;
+  line-height: 37px;
+  letter-spacing: 0px;
+  text-align: center;
+  color: #f4eee6;
+}
+
+/* s3-t3 */
+.s3-t3 {
+  left: 892.5px; top: 146.6px; width: 299.7px;
+  font-family: 'Youngest Serif';
+  font-size: 23.8952px;
+  line-height: 33px;
+  letter-spacing: 0px;
+  text-align: center;
+  color: #f4eee6;
+}
+
+/* Flotación suave de algunos adornos (como en la original) */
+@keyframes float-a {
+  0%, 100% { transform: translateX(-6px); }
+  50%      { transform: translateX(6px); }
+}
+@keyframes float-b {
+  0%, 100% { transform: translateX(-4px) translateY(-2px); }
+  50%      { transform: translateX(4px) translateY(2px); }
+}
+.s1-i3 { animation: float-a 5s ease-in-out infinite; }
+.s1-i4 { animation: float-b 6s ease-in-out infinite; }
+
+/* ============================================================
+   MÓVIL (<= 767px) — misma composición que la original
+   ============================================================ */
+@media (max-width: 767px) {
+  .page { width: 390px; }
+
+  .section-0 { width: 390px; height: 1106.64px; }
+  .s0-i0 { left: -11.4px; top: 0px; width: 412.8px; height: 619.1px; }
+  .s0-i1 { left: 329.3px; top: 280.6px; width: 45.1px; height: 37.1px; }
+  .s0-i2 { left: 52.3px; top: 272.8px; width: 53.9px; height: 70.3px; }
+  .s0-i3 { left: 24.2px; top: 634px; width: 319.9px; height: 480.6px; }
+  .s0-i4 { left: 15.6px; top: 629.9px; width: 328.5px; height: 469.3px; }
+  .s0-i5 { left: 313.8px; top: 654.2px; width: 60.6px; height: 96.9px; }
+
+  .section-1 { width: 390px; height: 1122.97px; }
+  .s1-i0 { left: 27.8px; top: 549.4px; width: 334.4px; height: 493.1px; }
+  .s1-i1 { left: 25.6px; top: 34px; width: 338.9px; height: 499.8px; }
+  .s1-i2 { left: 124.3px; top: 71.4px; width: 118.4px; height: 182.4px; }
+  .s1-i3 { left: 220.8px; top: 429.4px; width: 78.6px; height: 81px; }
+  .s1-i4 { left: 78.2px; top: 418.1px; width: 42.4px; height: 50.5px; }
+  .s1-i5 { left: 128.8px; top: 609.8px; width: 132.3px; height: 136.4px; }
+  .s1-i6 { left: 235.9px; top: 946.2px; width: 50.5px; height: 65.6px; }
+  .s1-t0 { left: 79.4px; top: 290.3px; width: 231.2px; }
+  .s1-t1 { left: 79.4px; top: 376.7px; width: 231.2px; }
+  .s1-t2 { left: 101.6px; top: 257.2px; width: 186.4px; }
+  .s1-t3 { left: 79.2px; top: 772.6px; width: 231.2px; }
+  .s1-t4 { left: 79.4px; top: 804.8px; width: 231.2px; }
+
+  .section-2 { width: 390px; height: 1123.48px; }
+  .s2-i0 { left: 25.6px; top: 38.2px; width: 338.9px; height: 499.7px; }
+  .s2-i1 { left: 112.4px; top: 594.4px; width: 132.3px; height: 169.4px; }
+  .s2-i2 { left: 25.6px; top: 553.6px; width: 338.9px; height: 499.8px; }
+  .s2-i3 { left: 115.2px; top: 455.6px; width: 153.8px; height: 24.1px; }
+  .s2-i4 { left: 99.2px; top: 108px; width: 191.7px; height: 146.6px; }
+  .s2-i5 { left: 168px; top: 939.8px; width: 71.5px; height: 74.8px; }
+  .s2-t0 { left: 79.2px; top: 786.8px; width: 231.2px; }
+  .s2-t1 { left: 79.4px; top: 831.7px; width: 231.2px; }
+  .s2-t2 { left: 76.3px; top: 270.9px; width: 231.2px; }
+  .s2-t3 { left: 76.6px; top: 310.9px; width: 231.2px; }
+
+  .section-3 { width: 390px; height: 973.64px; }
+  .s3-i0 { left: 91.7px; top: 573px; width: 230.5px; height: 235.1px; }
+  .s3-i1 { left: 214.1px; top: 361.7px; width: 88.1px; height: 109.1px; }
+  .s3-i2 { left: 137.1px; top: 80.1px; width: 115.9px; height: 85.7px; }
+  .s3-i3 { left: 124.8px; top: 361.7px; width: 89.3px; height: 133.3px; }
+  .s3-i4 { left: 252.9px; top: 234.8px; width: 49.3px; height: 43.9px; }
+  .s3-i5 { left: 50.6px; top: 24.4px; width: 288.7px; height: 44.7px; }
+  .s3-t0 { left: 90.9px; top: 179.9px; width: 225.5px; }
+  .s3-t1 { left: -10.2px; top: 829.5px; width: 409.5px; }
+  .s3-t2 { left: 79.3px; top: 291.8px; width: 248.7px; }
+  .s3-t3 { left: 83.3px; top: 508.8px; width: 238.1px; }
+
+}
+
+/* ---------- Footer ---------- */
+.footer { background: #000; color: #fff; padding: 10px 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 12px; }
+.footer-inner { width: 1366px; margin: 0 auto; display: flex; justify-content: space-between; padding: 0 8px; }
+.footer-muted { opacity: 0.6; }
+@media (max-width: 767px) { .footer-inner { width: 390px; } }
