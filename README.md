@@ -60,9 +60,12 @@ python3 -m http.server 8080
 - **Animaciones**: `.text-el` controla la entrada de textos, `.media-el` la de
   imágenes y `script.js` activa cada sección con `IntersectionObserver`.
 - **Sobre y música**: la portada inicial reutiliza `assets/sobre.jpeg`. Al tocar
-  «Toca para abrir», comienza `assets/audio/love-story.mp3` desde una interacción
+  «Toca para abrir», comienza `assets/audio/cancion.mp3` desde una interacción
   real (compatible con las políticas móviles) y se revela la web. El pequeño
-  icono inferior queda únicamente para pausar o reanudar.
+  icono inferior queda únicamente para pausar o reanudar. La música se pausa
+  automáticamente si la pestaña o la app del navegador pasan a segundo plano o
+  se cierran (eventos `visibilitychange` / `pagehide` en `script.js`), para que
+  en el móvil nunca se siga oyendo al cerrar Safari o cambiar de app.
 - **Imágenes**: reemplaza los ficheros en `assets/img/` manteniendo el nombre,
   o cambia el `src` en `index.html`. Los dos paneles raster del hero usan
   `<picture>` con WebP responsive (`-640.webp` / `-1024.webp`) y conservan los

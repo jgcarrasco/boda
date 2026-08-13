@@ -245,6 +245,45 @@
       setMusicState('waiting');
     });
 
+    // ---------- La música se detiene en segundo plano / al cerrar ----------
+    // iOS Safari (y algunas WebViews de Android) siguen reproduciendo el audio
+    // cuando la pestaña deja de verse o la app del navegador pasa a segundo
+    // plano. Estos eventos fuerzan la pausa para que, al cerrar la página o la
+    // app, la música nunca se siga oyendo.
+    let wasPlayingBeforeHide = false;
+
+    function pauseForBackground() {
+      if (music.paused) return;
+      wasPlayingBeforeHide = true;
+      intentionallyPaused = true;
+      window.cancelAnimationFrame(fadeFrame);
+      music.pause();
+      setMusicState('paused');
+    }
+
+    function resumeAfterBackground() {
+      if (!wasPlayingBeforeHide) return;
+      wasPlayingBeforeHide = false;
+      startBackgroundMusic();
+    }
+
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState === 'hidden') {
+        pauseForBackground();
+      } else {
+        resumeAfterBackground();
+      }
+    });
+    window.addEventListener('pagehide', pauseForBackground);
+    window.addEventListener('pageshow', function (event) {
+      // Restauración desde el bfcache (volver a una pestaña que no se cerró).
+      if (event.persisted) resumeAfterBackground();
+    });
+    window.addEventListener('blur', function () {
+      // Algunas WebViews móviles no emiten visibilitychange al minimizar.
+      if (document.hidden) pauseForBackground();
+    });
+
     setMusicState('waiting');
   }
 
