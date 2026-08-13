@@ -4,9 +4,9 @@
 The generated HTML contains static Open Graph metadata because WhatsApp and
 other link-preview crawlers do not execute JavaScript.
 
-Amsterdam Two Slant is used only while rasterising the recipient name. The font
+Amsterdam Regular is used only while rasterising the recipient name. The font
 file is deliberately not published with the site; put a legitimately obtained
-copy at tools/fonts/Amsterdam-Two-Slant.ttf or pass --font /path/to/font.ttf.
+copy at tools/fonts/Amsterdam-Regular.ttf or pass --font /path/to/font.ttf.
 """
 
 from __future__ import annotations
@@ -32,7 +32,7 @@ except ImportError as error:  # pragma: no cover - useful message on a new machi
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CONFIG = ROOT / "invitaciones.json"
-DEFAULT_FONT = ROOT / "tools" / "fonts" / "Amsterdam-Two-Slant.ttf"
+DEFAULT_FONT = ROOT / "tools" / "fonts" / "Amsterdam-Regular.ttf"
 HTML_TEMPLATE = ROOT / "index.html"
 ENVELOPE_TEMPLATE = ROOT / "assets" / "sobre-base.png"
 OUTPUT_ROOT = ROOT / "invitacion"
@@ -44,7 +44,7 @@ NAME_BOX = (330, 178, 1000, 310)
 TEXT_COLOR = (161, 78, 48, 244)
 MAX_FONT_SIZE = 72
 MIN_PREFERRED_FONT_SIZE = 44
-MAX_HORIZONTAL_SCALE = 1.45
+MAX_HORIZONTAL_SCALE = 1.75
 MIN_PREFERRED_HORIZONTAL_SCALE = 0.72
 SLUG_PATTERN = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 
@@ -69,7 +69,7 @@ def parse_args() -> argparse.Namespace:
         "--font",
         type=Path,
         default=Path(os.environ.get("INVITATION_FONT", DEFAULT_FONT)),
-        help="Path to a licensed Amsterdam Two Slant TTF/OTF file.",
+        help="Path to a licensed Amsterdam Regular TTF/OTF file.",
     )
     parser.add_argument(
         "--only",
@@ -370,8 +370,8 @@ def main() -> int:
 
     if not font_path.is_file():
         raise SystemExit(
-            f"Amsterdam Two Slant font not found: {font_path}\n"
-            "Put a licensed file at tools/fonts/Amsterdam-Two-Slant.ttf, set "
+            f"Amsterdam Regular font not found: {font_path}\n"
+            "Put a licensed file at tools/fonts/Amsterdam-Regular.ttf, set "
             "INVITATION_FONT, or pass --font."
         )
     if not HTML_TEMPLATE.is_file() or not ENVELOPE_TEMPLATE.is_file():

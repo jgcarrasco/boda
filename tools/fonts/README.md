@@ -1,15 +1,15 @@
 # Fuente local para las invitaciones
 
-Coloca aquí una copia **con licencia** de Amsterdam Two Slant con este nombre:
+Coloca aquí una copia **con licencia** de Amsterdam Regular con este nombre:
 
 ```text
-tools/fonts/Amsterdam-Two-Slant.ttf
+tools/fonts/Amsterdam-Regular.ttf
 ```
 
 También puedes mantenerla en cualquier otra ubicación y ejecutar:
 
 ```bash
-python3 tools/generate_invitations.py --font /ruta/Amsterdam-Two-Slant.ttf
+python3 tools/generate_invitations.py --font /ruta/Amsterdam-Regular.ttf
 ```
 
 El archivo de fuente está excluido de Git y no se publica como webfont. Solo se

@@ -106,8 +106,8 @@ Para añadir otro:
    { "slug": "ana-y-luis", "names": "Ana y Luis" }
    ```
 
-2. Guarda una copia legítima de Amsterdam Two Slant en
-   `tools/fonts/Amsterdam-Two-Slant.ttf` (el fichero está ignorado por Git), o indica
+2. Guarda una copia legítima de Amsterdam Regular en
+   `tools/fonts/Amsterdam-Regular.ttf` (el fichero está ignorado por Git), o indica
    otra ubicación mediante `--font`.
 3. Ejecuta:
 
@@ -148,7 +148,7 @@ controla la caligrafía del sobre.
 - **Youngest Serif** — cuerpo (párrafos)
 - **Hertical Smooth** — titulares (Etiqueta, alojamiento, menú, ¡reserva el día!)
 - **Fineday Two** — la frase «Gracias por formar parte de la nuestra»
-- **Amsterdam Two Slant** — nombres de destinatarios, rasterizada localmente; nunca
+- **Amsterdam Regular** — nombres de destinatarios, rasterizada localmente; nunca
   se sirve ni se incluye en el repositorio
 
 ## Colores de la paleta
