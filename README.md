@@ -24,6 +24,11 @@ verify.js       → comparación con la web original (requiere Playwright)
 Desplegada con GitHub Pages (repo `jgcarrasco/boda`, rama `main`).
 Para actualizar: haz `git push origin main` y GitHub Pages se actualiza solo.
 
+La vista previa al compartir el enlace usa `assets/social-preview.jpg` (1200×630).
+Las etiquetas Open Graph/Twitter están en el `<head>` de `index.html` y necesitan
+URLs absolutas; si cambia el dominio, actualiza allí `og:url`, `og:image` y
+`twitter:image`.
+
 ## Cómo verla en local
 
 Abre `index.html` directamente en el navegador, o sirve la carpeta:
