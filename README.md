@@ -17,7 +17,14 @@ build.js        → regenera index.html/styles.css a partir de reference/
 verify.js       → comparación pixel a pixel con la web original (requiere playwright)
 ```
 
-## Cómo verla
+## 🌐 En producción
+
+**https://jgcarrasco.github.io/boda/**
+
+Desplegada con GitHub Pages (repo `jgcarrasco/boda`, rama `main`).
+Para actualizar: haz `git push origin main` y GitHub Pages se actualiza solo.
+
+## Cómo verla en local
 
 Abre `index.html` directamente en el navegador, o sirve la carpeta:
 
