@@ -4,9 +4,9 @@
 The generated HTML contains static Open Graph metadata because WhatsApp and
 other link-preview crawlers do not execute JavaScript.
 
-Amsterdam Regular is used only while rasterising the recipient name. The font
+Brittany Signature is used only while rasterising the recipient name. The font
 file is deliberately not published with the site; put a legitimately obtained
-copy at tools/fonts/Amsterdam-Regular.ttf or pass --font /path/to/font.ttf.
+copy at tools/fonts/Brittany-Signature.ttf or pass --font /path/to/font.ttf.
 """
 
 from __future__ import annotations
@@ -32,7 +32,7 @@ except ImportError as error:  # pragma: no cover - useful message on a new machi
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CONFIG = ROOT / "invitaciones.json"
-DEFAULT_FONT = ROOT / "tools" / "fonts" / "Amsterdam-Regular.ttf"
+DEFAULT_FONT = ROOT / "tools" / "fonts" / "Brittany-Signature.ttf"
 HTML_TEMPLATE = ROOT / "index.html"
 ENVELOPE_TEMPLATE = ROOT / "assets" / "sobre-base.png"
 OUTPUT_ROOT = ROOT / "invitacion"
@@ -69,7 +69,7 @@ def parse_args() -> argparse.Namespace:
         "--font",
         type=Path,
         default=Path(os.environ.get("INVITATION_FONT", DEFAULT_FONT)),
-        help="Path to a licensed Amsterdam Regular TTF/OTF file.",
+        help="Path to a licensed Brittany Signature TTF/OTF file.",
     )
     parser.add_argument(
         "--only",
@@ -137,7 +137,7 @@ def render_text_layer(text: str, font_path: Path) -> tuple[Image.Image, int]:
     selected_bbox: tuple[int, int, int, int] | None = None
     selected_size = MAX_FONT_SIZE
 
-    # Glyphs in Amsterdam have unusually long ascenders and descenders. Measure
+    # Signature fonts have unusually long ascenders and descenders. Measure
     # their real ink bounds rather than estimating from character count.
     for size in range(MAX_FONT_SIZE, 11, -1):
         font = ImageFont.truetype(str(font_path), size=size)
@@ -370,8 +370,8 @@ def main() -> int:
 
     if not font_path.is_file():
         raise SystemExit(
-            f"Amsterdam Regular font not found: {font_path}\n"
-            "Put a licensed file at tools/fonts/Amsterdam-Regular.ttf, set "
+            f"Brittany Signature font not found: {font_path}\n"
+            "Put a licensed file at tools/fonts/Brittany-Signature.ttf, set "
             "INVITATION_FONT, or pass --font."
         )
     if not HTML_TEMPLATE.is_file() or not ENVELOPE_TEMPLATE.is_file():

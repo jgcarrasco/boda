@@ -109,8 +109,8 @@ Para añadir otro:
    { "slug": "ana-y-luis", "names": "Ana y Luis" }
    ```
 
-2. Guarda una copia legítima de Amsterdam Regular en
-   `tools/fonts/Amsterdam-Regular.ttf` (el fichero está ignorado por Git), o indica
+2. Guarda una copia legítima de Brittany Signature en
+   `tools/fonts/Brittany-Signature.ttf` (el fichero está ignorado por Git), o indica
    otra ubicación mediante `--font`.
 3. Ejecuta:
 
@@ -128,7 +128,7 @@ quien lo conozca.
 
 ### Nombres largos
 
-El nombre no usa un tamaño fijo. El generador mide el contorno real de Amsterdam
+El nombre no usa un tamaño fijo. El generador mide el contorno real de Brittany
 (incluidos trazos y florituras), lo centra dentro de un rectángulo seguro y
 ajusta tamaño/anchura automáticamente. Antes de guardar comprueba como condición
 obligatoria que ningún píxel salga del área del sobre. Si un nombre
@@ -151,7 +151,7 @@ controla la caligrafía del sobre.
 - **Youngest Serif** — cuerpo (párrafos)
 - **Hertical Smooth** — titulares (Etiqueta, alojamiento, menú, ¡reserva el día!)
 - **Fineday Two** — la frase «Gracias por formar parte de la nuestra»
-- **Amsterdam Regular** — nombres de destinatarios, rasterizada localmente; nunca
+- **Brittany Signature** — nombres de destinatarios, rasterizada localmente; nunca
   se sirve ni se incluye en el repositorio
 
 ## Colores de la paleta

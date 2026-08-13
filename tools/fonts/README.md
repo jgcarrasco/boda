@@ -1,15 +1,15 @@
 # Fuente local para las invitaciones
 
-Coloca aquí una copia **con licencia** de Amsterdam Regular con este nombre:
+Coloca aquí una copia **con licencia** de Brittany Signature con este nombre:
 
 ```text
-tools/fonts/Amsterdam-Regular.ttf
+tools/fonts/Brittany-Signature.ttf
 ```
 
 También puedes mantenerla en cualquier otra ubicación y ejecutar:
 
 ```bash
-python3 tools/generate_invitations.py --font /ruta/Amsterdam-Regular.ttf
+python3 tools/generate_invitations.py --font /ruta/Brittany-Signature.ttf
 ```
 
 El archivo de fuente está excluido de Git y no se publica como webfont. Solo se
