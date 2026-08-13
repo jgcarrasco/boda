@@ -13,6 +13,10 @@ assets/
   audio/        → música de fondo autorizada
   fonts/        → las 3 tipografías usadas (WOFF)
   img/          → imágenes (fotos, flores, arcos, adornos)
+  sobre-base.png → sobre sin nombre para generar versiones personales
+invitaciones.json             → destinatarios y slugs publicados
+tools/generate_invitations.py → generador estático de páginas y sobres
+invitacion/<slug>/            → invitaciones personales ya generadas
 reference/      → datos locales de comparación (excluidos del repo público)
 build.js        → generador antiguo protegido; no usar para la versión actual
 verify.js       → comparación con la web original (requiere Playwright)
@@ -26,10 +30,11 @@ Desplegada con GitHub Pages (repo `jgcarrasco/boda`, rama `main`) y dominio
 personalizado. `https://jgcarrasco.github.io/boda/` redirige al dominio principal.
 Para actualizar: haz `git push origin main` y GitHub Pages se actualiza solo.
 
-La vista previa al compartir el enlace usa el sobre proporcionado en
-`assets/sobre.jpeg` (1280×720). Las etiquetas Open Graph/Twitter están en el
-`<head>` de `index.html` y necesitan URLs absolutas; si cambia el dominio,
-actualiza allí `canonical`, `og:url`, `og:image` y `twitter:image`.
+La portada general usa el sobre proporcionado en `assets/sobre.jpeg`
+(1280×720). Cada enlace personal usa su propio JPEG y etiquetas Open
+Graph/Twitter estáticas, por lo que WhatsApp puede mostrar el destinatario sin
+ejecutar JavaScript. Las URLs sociales son absolutas y se generan desde
+`site_url` en `invitaciones.json`.
 
 El favicon es el monograma **JyP**, construido con las letras reales del sobre.
 Incluye variantes optimizadas de 16px, 32px, 512px y formato `.ico`.
@@ -85,11 +90,66 @@ python3 -m http.server 8080
 | img_20.svg, img_21.svg, img_22.svg, img_23.svg | cierre | Flores/ramas/hojas |
 | img_24.svg | cierre | Línea ondulada marrón |
 
+## Invitaciones personalizadas
+
+Cada destinatario tiene una ruta estática y legible, por ejemplo:
+
+```text
+https://bienvenidosanuestraboda.com/invitacion/kaki-y-mariola/
+```
+
+Para añadir otro:
+
+1. Añade una entrada a `invitaciones.json`:
+
+   ```json
+   { "slug": "ana-y-luis", "names": "Ana y Luis" }
+   ```
+
+2. Guarda una copia legítima de Amsterdam Two Slant en
+   `tools/fonts/Amsterdam-Two-Slant.ttf` (el fichero está ignorado por Git), o indica
+   otra ubicación mediante `--font`.
+3. Ejecuta:
+
+   ```bash
+   python3 tools/generate_invitations.py
+   # o solo una entrada:
+   python3 tools/generate_invitations.py --only ana-y-luis
+   ```
+
+El generador crea `invitacion/<slug>/index.html` y un JPEG con nombre versionado.
+El título, descripción, canonical, `og:*`, Twitter y el sobre inicial quedan
+escritos directamente en HTML. Las páginas personales incluyen `noindex` para
+reducir su aparición en buscadores, aunque el enlace sigue siendo público para
+quien lo conozca.
+
+### Nombres largos
+
+El nombre no usa un tamaño fijo. El generador mide el contorno real de Amsterdam
+(incluidos trazos y florituras), lo centra dentro de un rectángulo seguro y
+ajusta tamaño/anchura automáticamente. Antes de guardar comprueba como condición
+obligatoria que ningún píxel salga del área del sobre. Si un nombre
+excepcionalmente largo queda demasiado pequeño, se puede usar una versión más
+breve solo en la imagen:
+
+```json
+{
+  "slug": "familia-garcia-martinez",
+  "names": "Familia García Martínez y acompañantes",
+  "envelope_name": "Familia García Martínez"
+}
+```
+
+`names` continúa apareciendo completo en el título social; `envelope_name` solo
+controla la caligrafía del sobre.
+
 ## Tipografías
 
 - **Youngest Serif** — cuerpo (párrafos)
 - **Hertical Smooth** — titulares (Etiqueta, alojamiento, menú, ¡reserva el día!)
 - **Fineday Two** — la frase «Gracias por formar parte de la nuestra»
+- **Amsterdam Two Slant** — nombres de destinatarios, rasterizada localmente; nunca
+  se sirve ni se incluye en el repositorio
 
 ## Colores de la paleta
 

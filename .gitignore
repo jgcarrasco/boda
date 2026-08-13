@@ -2,4 +2,10 @@
 reference/
 node_modules/
 .venv/
+__pycache__/
+*.py[cod]
 .DS_Store
+
+# Fuente comercial/personal local: se rasteriza, nunca se publica.
+tools/fonts/*
+!tools/fonts/README.md
