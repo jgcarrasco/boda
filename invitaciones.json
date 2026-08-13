@@ -2,8 +2,312 @@
   "site_url": "https://bienvenidosanuestraboda.com",
   "invitations": [
     {
+      "slug": "madre-y-padre",
+      "names": "Madre y Padre"
+    },
+    {
+      "slug": "david-y-ana",
+      "names": "David y Ana"
+    },
+    {
+      "slug": "pepe-y-erika",
+      "names": "Pepe y Erika"
+    },
+    {
+      "slug": "maria-y-naza",
+      "names": "María y Naza"
+    },
+    {
+      "slug": "tio-pepito",
+      "names": "Tío Pepito"
+    },
+    {
+      "slug": "tio-javier-sonia-y-familia",
+      "names": "Tío Javier, Sonia y Familia"
+    },
+    {
+      "slug": "pollete-y-angela",
+      "names": "Pollete y Ángela"
+    },
+    {
+      "slug": "fina-y-chichi",
+      "names": "Fina y Chichi"
+    },
+    {
+      "slug": "raul",
+      "names": "Raúl"
+    },
+    {
+      "slug": "raulete",
+      "names": "Raulete"
+    },
+    {
+      "slug": "rebe-y-roberto",
+      "names": "Rebe y Roberto"
+    },
+    {
+      "slug": "rober",
+      "names": "Rober"
+    },
+    {
+      "slug": "nuria-fran-y-familia",
+      "names": "Nuria, Fran y Familia"
+    },
+    {
+      "slug": "paco-y-ule",
+      "names": "Paco y Ule"
+    },
+    {
+      "slug": "mari",
+      "names": "Mari"
+    },
+    {
+      "slug": "maria-jose-juanjo-y-familia",
+      "names": "María José, Juanjo y Familia"
+    },
+    {
+      "slug": "alicia-y-lorenzo",
+      "names": "Alicia y Lorenzo"
+    },
+    {
+      "slug": "maria-y-jesus",
+      "names": "María y Jesús"
+    },
+    {
+      "slug": "sergio",
+      "names": "Sergio"
+    },
+    {
+      "slug": "samu",
+      "names": "Samu"
+    },
+    {
+      "slug": "pedro",
+      "names": "Pedro"
+    },
+    {
+      "slug": "ximo-y-paula",
+      "names": "Ximo y Paula"
+    },
+    {
+      "slug": "marta-y-jaume",
+      "names": "Marta y Jaume"
+    },
+    {
+      "slug": "alvaro",
+      "names": "Álvaro"
+    },
+    {
+      "slug": "isabel-y-sergio",
+      "names": "Isabel y Sergio"
+    },
+    {
+      "slug": "clara",
+      "names": "Clara"
+    },
+    {
+      "slug": "mery",
+      "names": "Mery"
+    },
+    {
+      "slug": "laurita",
+      "names": "Laurita"
+    },
+    {
+      "slug": "jess",
+      "names": "Jess"
+    },
+    {
+      "slug": "miguel",
+      "names": "Miguel"
+    },
+    {
+      "slug": "belen",
+      "names": "Belén"
+    },
+    {
+      "slug": "mila",
+      "names": "Mila"
+    },
+    {
+      "slug": "ana",
+      "names": "Ana"
+    },
+    {
+      "slug": "toni-y-mazin",
+      "names": "Toñi y Mazin"
+    },
+    {
+      "slug": "lute-y-lola",
+      "names": "Lute y Lola"
+    },
+    {
+      "slug": "mari-carmen-jose-y-familia",
+      "names": "Mari Carmen, José y Familia"
+    },
+    {
+      "slug": "jose-angel-y-miriam",
+      "names": "José Ángel y Miriam"
+    },
+    {
+      "slug": "cristina-victor-y-familia",
+      "names": "Cristina, Víctor y Familia"
+    },
+    {
+      "slug": "dolors-y-ramon",
+      "names": "Dolors y Ramón"
+    },
+    {
+      "slug": "esther-y-jorge",
+      "names": "Esther y Jorge"
+    },
+    {
+      "slug": "valeria-y-jimena",
+      "names": "Valeria y Jimena"
+    },
+    {
+      "slug": "madre-y-padre-2",
+      "names": "Madre y Padre"
+    },
+    {
+      "slug": "sergio-2",
+      "names": "Sergio"
+    },
+    {
+      "slug": "abuela-mari",
+      "names": "Abuela Mari"
+    },
+    {
+      "slug": "tia-dori-y-jorge",
+      "names": "Tía Dori y Jorge"
+    },
+    {
+      "slug": "abuela-fani",
+      "names": "Abuela Fani"
+    },
+    {
+      "slug": "tios-micky-carol-y-ferran",
+      "names": "Tíos Micky, Carol y Ferran"
+    },
+    {
+      "slug": "aina-y-vicente",
+      "names": "Aina y Vicente"
+    },
+    {
+      "slug": "tios-javi-gema-y-compania",
+      "names": "Tíos Javi, Gema y Compañía"
+    },
+    {
+      "slug": "tios-fran-y-sonia",
+      "names": "Tíos Fran y Sonia"
+    },
+    {
+      "slug": "tios-luis-y-susi",
+      "names": "Tíos Luis y Susi"
+    },
+    {
+      "slug": "luisito-y-laura",
+      "names": "Luisito y Laura"
+    },
+    {
+      "slug": "andrea-y-familia",
+      "names": "Andrea y Familia"
+    },
+    {
+      "slug": "jenny",
+      "names": "Jenny"
+    },
+    {
+      "slug": "ivan",
+      "names": "Iván"
+    },
+    {
+      "slug": "jordi-juan",
+      "names": "Jordi Juan"
+    },
+    {
+      "slug": "oscar-y-ana",
+      "names": "Óscar y Ana"
+    },
+    {
       "slug": "kaki-y-mariola",
       "names": "Kaki y Mariola"
+    },
+    {
+      "slug": "iovan",
+      "names": "Iovan"
+    },
+    {
+      "slug": "edgar-y-ainara",
+      "names": "Edgar y Ainara"
+    },
+    {
+      "slug": "jandro",
+      "names": "Jandro"
+    },
+    {
+      "slug": "lluis-y-neus",
+      "names": "Lluís y Neus"
+    },
+    {
+      "slug": "laia",
+      "names": "Laia"
+    },
+    {
+      "slug": "yogu-y-alba",
+      "names": "Yogu y Alba"
+    },
+    {
+      "slug": "dome",
+      "names": "Dome"
+    },
+    {
+      "slug": "blanes",
+      "names": "Blanes"
+    },
+    {
+      "slug": "herrero-y-maria",
+      "names": "Herrero y María"
+    },
+    {
+      "slug": "sara",
+      "names": "Sara"
+    },
+    {
+      "slug": "mar-sanchez",
+      "names": "Mar Sánchez"
+    },
+    {
+      "slug": "celia",
+      "names": "Celia"
+    },
+    {
+      "slug": "mar-fernandez",
+      "names": "Mar Fernández"
+    },
+    {
+      "slug": "mireya",
+      "names": "Mireya"
+    },
+    {
+      "slug": "carla",
+      "names": "Carla"
+    },
+    {
+      "slug": "pana",
+      "names": "Pana"
+    },
+    {
+      "slug": "sandra-y-andres",
+      "names": "Sandra y Andrés"
+    },
+    {
+      "slug": "marina",
+      "names": "Marina"
+    },
+    {
+      "slug": "sanchis",
+      "names": "Sanchis"
     }
   ]
 }
