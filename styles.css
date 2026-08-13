@@ -102,9 +102,9 @@ body.invitation-locked .footer {
     max(16px, env(safe-area-inset-bottom))
     max(10px, env(safe-area-inset-left));
   overflow: hidden;
-  background:
-    radial-gradient(circle at 50% 42%, rgb(255 252 247 / 72%) 0, rgb(247 242 234 / 0%) 58%),
-    #f7f2ea;
+  /* Exact dominant edge color of assets/sobre.jpeg: keeps the JPEG border
+     completely invisible against the full-screen canvas. */
+  background: #faf1e8;
   opacity: 1;
   visibility: visible;
   overscroll-behavior: contain;
