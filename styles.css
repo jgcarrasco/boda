@@ -65,6 +65,161 @@ body {
   max-width: none;
 }
 
+.page,
+.footer {
+  opacity: 1;
+  filter: none;
+  transition:
+    opacity 1s cubic-bezier(.22, 1, .36, 1),
+    filter 1.1s cubic-bezier(.22, 1, .36, 1);
+}
+body.invitation-locked {
+  height: 100vh;
+  height: 100svh;
+  overflow-y: hidden;
+  overscroll-behavior: none;
+}
+body.invitation-locked .page,
+body.invitation-locked .footer {
+  opacity: 0;
+  filter: blur(3px);
+}
+#main-content:focus { outline: none; }
+
+/* ---------- Initial envelope ---------- */
+.invitation-gate {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  padding:
+    max(16px, env(safe-area-inset-top))
+    max(10px, env(safe-area-inset-right))
+    max(16px, env(safe-area-inset-bottom))
+    max(10px, env(safe-area-inset-left));
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 42%, rgb(255 252 247 / 72%) 0, rgb(247 242 234 / 0%) 58%),
+    #f7f2ea;
+  opacity: 1;
+  visibility: visible;
+  overscroll-behavior: contain;
+  touch-action: manipulation;
+  transition:
+    opacity .82s cubic-bezier(.4, 0, .2, 1) .18s,
+    visibility 0s linear 1.02s;
+}
+.invitation-gate[hidden] { display: none; }
+.invitation-gate.is-opening {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.invitation-opener {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  place-items: center;
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: #622c22;
+  font: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.invitation-card {
+  display: block;
+  grid-column: 1;
+  justify-self: center;
+  width: min(1050px, 96vw, calc(177.78svh - 195.56px));
+  transform-origin: 50% 58%;
+  animation: envelope-float 4.8s ease-in-out infinite;
+  transition:
+    opacity .72s cubic-bezier(.4, 0, .2, 1),
+    filter .72s cubic-bezier(.4, 0, .2, 1),
+    transform .85s cubic-bezier(.22, 1, .36, 1);
+}
+.invitation-envelope {
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.invitation-prompt {
+  display: inline-flex;
+  grid-column: 1;
+  justify-self: center;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: clamp(-8px, -1vh, -2px);
+  color: #622c22;
+  font-family: 'Youngest Serif', serif;
+  font-size: clamp(17px, 2.2vw, 22px);
+  line-height: 1;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  opacity: .84;
+  transition: opacity .45s ease, transform .65s cubic-bezier(.22, 1, .36, 1);
+  animation: invitation-prompt-pulse 2.4s ease-in-out infinite;
+}
+.invitation-prompt-note {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgb(98 44 34 / 38%);
+  border-radius: 50%;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 17px;
+  letter-spacing: 0;
+}
+.invitation-opener:hover .invitation-prompt { opacity: 1; }
+.invitation-opener:focus-visible { outline: none; }
+.invitation-opener:focus-visible .invitation-prompt {
+  opacity: 1;
+  outline: 2px solid rgb(98 44 34 / 62%);
+  outline-offset: 7px;
+  border-radius: 2px;
+}
+.invitation-gate.is-opening .invitation-card {
+  animation: none;
+  opacity: 0;
+  filter: blur(3px);
+  transform: translateY(-18px) scale(1.055);
+}
+.invitation-gate.is-opening .invitation-prompt {
+  animation: none;
+  opacity: 0;
+  transform: translateY(12px);
+}
+@keyframes envelope-float {
+  0%, 100% { transform: translateY(2px) scale(1); }
+  50%      { transform: translateY(-6px) scale(1.006); }
+}
+@keyframes invitation-prompt-pulse {
+  0%, 100% { opacity: .68; }
+  50%      { opacity: 1; }
+}
+
+@media (max-width: 767px) {
+  .invitation-card {
+    width: min(620px, 145vw, calc(177.78svh - 195.56px));
+  }
+  .invitation-prompt {
+    margin-top: -4px;
+    font-size: clamp(15px, 4.3vw, 18px);
+  }
+}
+
 /* ---------- Canvas full-bleed ---------- */
 .section {
   --design-width: 1366px;
@@ -195,6 +350,19 @@ body {
 }
 .motion-ready .section:not(.is-visible) .heading-el {
   transform: translate3d(0, 34px, 0) scale(.97);
+}
+
+/* Keep the hero entrance poised behind the envelope, even if the observer has
+   already marked the first section visible. Removing invitation-locked starts
+   the staggered reveal at the same moment the envelope opens. */
+.motion-ready body.invitation-locked .section-0 .media-el {
+  opacity: 0;
+  filter: blur(2px);
+  transform:
+    translate3d(var(--enter-x, 0), var(--enter-y, 18px), 0)
+    scale(var(--enter-scale, .94))
+    rotate(var(--enter-rotate, 0deg));
+  animation-play-state: paused;
 }
 
 /* Hero: two gentle opposing photo entrances and an arch wipe. */
@@ -457,78 +625,92 @@ body {
 }
 .footer-muted { opacity: .6; }
 
-/* ---------- Floating background-music control ---------- */
+/* ---------- Discreet pause/resume control after opening ---------- */
 .music-toggle {
   position: fixed;
   z-index: 50;
-  right: max(16px, env(safe-area-inset-right));
-  bottom: max(16px, calc(env(safe-area-inset-bottom) + 10px));
+  right: max(12px, env(safe-area-inset-right));
+  bottom: max(12px, calc(env(safe-area-inset-bottom) + 7px));
   display: grid;
   grid-template-columns: 1fr auto;
   place-items: center;
-  gap: 3px;
-  width: 50px;
-  height: 50px;
-  padding: 0 8px;
+  gap: 2px;
+  width: 38px;
+  height: 38px;
+  padding: 0 6px;
   overflow: hidden;
-  border: 1px solid rgb(98 44 34 / 34%);
+  border: 1px solid rgb(98 44 34 / 25%);
   border-radius: 999px;
-  background: rgb(247 242 234 / 88%);
+  background: rgb(247 242 234 / 76%);
   color: #622c22;
-  box-shadow: 0 5px 20px rgb(40 24 18 / 16%);
-  -webkit-backdrop-filter: blur(9px);
-  backdrop-filter: blur(9px);
+  box-shadow: 0 3px 14px rgb(40 24 18 / 11%);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
   cursor: pointer;
-  opacity: .82;
-  transition: opacity .25s ease, transform .25s ease, background .25s ease;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(4px);
+  transition:
+    opacity .3s ease 0s,
+    transform .3s ease 0s,
+    background .25s ease;
   touch-action: manipulation;
+}
+body.invitation-opened .music-toggle {
+  opacity: .42;
+  pointer-events: auto;
+  transform: none;
+  transition-delay: 1.15s, 1.15s, 0s;
+}
+body.invitation-opened .music-toggle[data-state='paused'] { opacity: .62; }
+body.invitation-opened .music-toggle[data-state='waiting'] {
+  opacity: .78;
+  animation: music-ready-pulse 2.2s ease-out infinite;
 }
 .music-toggle:hover,
 .music-toggle:focus-visible {
-  opacity: 1;
-  transform: translateY(-2px);
+  opacity: 1 !important;
+  transform: translateY(-2px) !important;
   outline: none;
+  transition-delay: 0s;
 }
 .music-toggle:focus-visible {
-  box-shadow: 0 0 0 3px rgb(247 242 234 / 70%), 0 0 0 5px rgb(98 44 34 / 55%);
+  box-shadow: 0 0 0 3px rgb(247 242 234 / 70%), 0 0 0 5px rgb(98 44 34 / 48%);
 }
 .music-note {
   font-family: Georgia, 'Times New Roman', serif;
-  font-size: 24px;
+  font-size: 18px;
   line-height: 1;
   transform: translateY(-1px);
 }
 .music-equalizer {
   display: flex;
   align-items: end;
-  gap: 1.5px;
-  width: 9px;
-  height: 16px;
+  gap: 1px;
+  width: 7px;
+  height: 12px;
 }
 .music-equalizer i {
   display: block;
-  width: 2px;
-  height: 4px;
+  width: 1.5px;
+  height: 3px;
   border-radius: 2px;
   background: currentColor;
   transform-origin: center bottom;
   animation: music-bar .72s ease-in-out infinite alternate;
   animation-play-state: paused;
 }
-.music-equalizer i:nth-child(2) { height: 9px; animation-delay: -.38s; }
-.music-equalizer i:nth-child(3) { height: 6px; animation-delay: -.16s; }
+.music-equalizer i:nth-child(2) { height: 7px; animation-delay: -.38s; }
+.music-equalizer i:nth-child(3) { height: 5px; animation-delay: -.16s; }
 .music-toggle[data-state='playing'] .music-equalizer i { animation-play-state: running; }
-.music-toggle[data-state='waiting'] {
-  animation: music-ready-pulse 2.2s ease-out infinite;
-}
-.music-toggle[data-state='paused'] .music-equalizer { opacity: .38; }
+.music-toggle[data-state='paused'] .music-equalizer { opacity: .34; }
 @keyframes music-bar {
   from { transform: scaleY(.5); }
   to   { transform: scaleY(1.45); }
 }
 @keyframes music-ready-pulse {
-  0%, 55%, 100% { box-shadow: 0 5px 20px rgb(40 24 18 / 16%), 0 0 0 0 rgb(98 44 34 / 20%); }
-  78% { box-shadow: 0 5px 20px rgb(40 24 18 / 16%), 0 0 0 9px rgb(98 44 34 / 0%); }
+  0%, 55%, 100% { box-shadow: 0 3px 14px rgb(40 24 18 / 11%), 0 0 0 0 rgb(98 44 34 / 18%); }
+  78% { box-shadow: 0 3px 14px rgb(40 24 18 / 11%), 0 0 0 8px rgb(98 44 34 / 0%); }
 }
 
 /* Motion accessibility: preserve layout scaling, remove decorative motion. */
@@ -548,6 +730,11 @@ body {
     rotate: none !important;
     scale: none !important;
   }
+  .page,
+  .footer,
+  .invitation-gate,
+  .invitation-card,
+  .invitation-prompt,
   .music-toggle,
   .music-equalizer i {
     animation: none !important;

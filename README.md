@@ -8,7 +8,7 @@ reconstruida a mano con HTML/CSS/JS puro para poder ampliarla (formularios, mapa
 ```
 index.html      → la página completa (4 secciones + footer)
 styles.css      → canvas full-bleed, layouts desktop/móvil y animaciones
-script.js       → escalado responsive + revelado al hacer scroll
+script.js       → escalado, revelado al hacer scroll, sobre inicial y música
 assets/
   audio/        → música de fondo autorizada
   fonts/        → las 3 tipografías usadas (WOFF)
@@ -54,9 +54,10 @@ python3 -m http.server 8080
   el diseño uniformemente y evitan desbordamientos en móviles estrechos.
 - **Animaciones**: `.text-el` controla la entrada de textos, `.media-el` la de
   imágenes y `script.js` activa cada sección con `IntersectionObserver`.
-- **Música**: `assets/audio/love-story.mp3`. El reproductor intenta arrancar al
-  abrir la página. Si el navegador bloquea autoplay con sonido, comienza con el
-  primer toque/swipe; no hay pantalla previa. El botón flotante pausa/reanuda.
+- **Sobre y música**: la portada inicial reutiliza `assets/sobre.jpeg`. Al tocar
+  «Toca para abrir», comienza `assets/audio/love-story.mp3` desde una interacción
+  real (compatible con las políticas móviles) y se revela la web. El pequeño
+  icono inferior queda únicamente para pausar o reanudar.
 - **Imágenes**: reemplaza los ficheros en `assets/img/` manteniendo el nombre,
   o cambia el `src` en `index.html`. Los dos paneles raster del hero usan
   `<picture>` con WebP responsive (`-640.webp` / `-1024.webp`) y conservan los

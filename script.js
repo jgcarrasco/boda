@@ -135,9 +135,15 @@
     sections.forEach(function (section) { revealObserver.observe(section); });
   }
 
-  // ---------- Seamless background music ----------
+  // ---------- Envelope entrance + background music ----------
   const music = document.querySelector('#background-music');
   const musicButton = document.querySelector('.music-toggle');
+  const invitationGate = document.querySelector('.invitation-gate');
+  const invitationOpener = document.querySelector('.invitation-opener');
+  const mainContent = document.querySelector('#main-content');
+  const gatedRegions = [mainContent, document.querySelector('.footer')].filter(Boolean);
+
+  let startBackgroundMusic = function () {};
 
   if (music && musicButton) {
     const targetVolume = 0.58;
@@ -184,7 +190,7 @@
       fadeFrame = window.requestAnimationFrame(tick);
     }
 
-    function startMusic() {
+    startBackgroundMusic = function () {
       if (playPending || !music.paused) return;
       playPending = true;
       intentionallyPaused = false;
@@ -192,8 +198,8 @@
 
       let playResult;
       try {
-        // Called once immediately and again directly inside the first user
-        // pointer/key event when autoplay policy blocks the initial attempt.
+        // The envelope click is a direct user gesture, so mobile browsers can
+        // start audible playback without an autoplay-policy workaround.
         playResult = music.play();
       } catch (_) {
         playPending = false;
@@ -215,24 +221,11 @@
         setMusicState('playing');
         fadeMusicTo(targetVolume, 1400);
       }
-    }
-
-    function unlockMusic(event) {
-      if (intentionallyPaused || !music.paused) return;
-      if (event.target.closest && event.target.closest('.music-toggle')) return;
-      startMusic();
-    }
-
-    // A scroll gesture begins with pointerdown, so the music starts naturally
-    // with the guest's first swipe—without a modal or extra confirmation screen.
-    document.addEventListener('pointerdown', unlockMusic, { capture: true, passive: true });
-    document.addEventListener('touchend', unlockMusic, { capture: true, passive: true });
-    document.addEventListener('click', unlockMusic, { capture: true, passive: true });
-    document.addEventListener('keydown', unlockMusic, { capture: true });
+    };
 
     musicButton.addEventListener('click', function () {
       if (music.paused) {
-        startMusic();
+        startBackgroundMusic();
       } else {
         intentionallyPaused = true;
         window.cancelAnimationFrame(fadeFrame);
@@ -253,7 +246,60 @@
     });
 
     setMusicState('waiting');
-    startMusic();
+  }
+
+  if (invitationGate && invitationOpener) {
+    let invitationOpened = false;
+    let gateRemoved = false;
+
+    gatedRegions.forEach(function (region) { region.inert = true; });
+    if (musicButton) musicButton.inert = true;
+    window.scrollTo(0, 0);
+
+    function finishOpening() {
+      if (gateRemoved) return;
+      gateRemoved = true;
+      invitationGate.hidden = true;
+      invitationGate.setAttribute('aria-hidden', 'true');
+      mainContent?.focus({ preventScroll: true });
+    }
+
+    function openInvitation() {
+      if (invitationOpened) return;
+      invitationOpened = true;
+
+      // Keep this call directly inside the click handler: that is what makes
+      // audible playback reliable in Safari and Chrome on phones.
+      startBackgroundMusic();
+      window.scrollTo(0, 0);
+
+      invitationGate.classList.add('is-opening');
+      document.body.classList.add('invitation-opened');
+      document.body.classList.remove('invitation-locked');
+      gatedRegions.forEach(function (region) { region.inert = false; });
+      if (musicButton) musicButton.inert = false;
+
+      function handleGateTransition(event) {
+        if (event.target !== invitationGate || event.propertyName !== 'opacity') return;
+        invitationGate.removeEventListener('transitionend', handleGateTransition);
+        finishOpening();
+      }
+      invitationGate.addEventListener('transitionend', handleGateTransition);
+
+      // Fallback for reduced-motion mode and browsers that skip transitionend.
+      window.setTimeout(finishOpening, reducedMotion.matches ? 40 : 1150);
+    }
+
+    invitationOpener.addEventListener('click', openInvitation, { once: true });
+    window.addEventListener('pageshow', function () {
+      if (!invitationOpened) window.scrollTo(0, 0);
+    }, { once: true });
+  } else {
+    // Never leave the page inaccessible if the decorative gate is removed.
+    document.body.classList.remove('invitation-locked');
+    document.body.classList.add('invitation-opened');
+    gatedRegions.forEach(function (region) { region.inert = false; });
+    if (musicButton) musicButton.inert = false;
   }
 
   // Keep the mobile browser chrome in harmony with the section currently shown.
