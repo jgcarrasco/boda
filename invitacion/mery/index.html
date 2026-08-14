@@ -163,8 +163,73 @@
         <div class="el text-el heading-el s3-t1"><span class="s3-t1-anim">¡reserva el día!</span></div>
         <div class="el text-el s3-t2">Gracias por formar parte de la nuestra</div>
         <div class="el text-el s3-t3">¡Te volveremos a escribir para contarte más detalles!</div>
+        <div class="el text-el witness-hint" aria-hidden="true">
+          <span class="witness-hint-text">aún hay algo más…</span>
+          <span class="witness-hint-arrows"><i></i><i></i></span>
+        </div>
       </div>
     </div>
+  </section>
+
+
+  <section
+    class="witness-section"
+    id="witness-question"
+    aria-label="Pregunta especial">
+    <div class="witness-inner">
+      <button
+        class="witness-envelope"
+        type="button"
+        aria-expanded="false"
+        aria-controls="witness-message"
+        aria-label="Abrir mensaje especial para María">
+        <span class="witness-envelope-stage">
+          <span class="witness-envelope-back" aria-hidden="true"></span>
+          <span
+            class="witness-letter"
+            id="witness-message"
+            role="status"
+            aria-live="polite"
+            aria-hidden="true">
+            <span class="witness-heart" aria-hidden="true">♡</span>
+            <span>Nos encantaría que fueras</span>
+            <img
+              class="witness-title-img"
+              src="/assets/witness/witness-title.png"
+              alt="testigo de nuestra boda"
+              width="900"
+              height="207">
+          </span>
+          <span class="witness-envelope-flap" aria-hidden="true"></span>
+          <span class="witness-envelope-front" aria-hidden="true"></span>
+          <img
+            class="witness-seal"
+            src="/assets/witness/witness-seal.png"
+            alt=""
+            width="180"
+            height="180">
+          <span class="witness-envelope-teaser" aria-hidden="true">
+            <img
+              class="witness-teaser-img"
+              src="/assets/witness/witness-teaser.png"
+              alt=""
+              width="460"
+              height="305">
+          </span>
+        </span>
+      </button>
+      <p class="witness-teaser-line">Hay algo más que tenemos que decirte…</p>
+      <p class="witness-tap">Toca el sobre para abrirlo</p>
+    </div>
+    <noscript>
+      <style>
+        .witness-letter { transform: translateY(-80%) !important; }
+        .witness-envelope-flap,
+        .witness-envelope-teaser,
+        .witness-tap { display: none !important; }
+        .witness-seal { display: none !important; }
+      </style>
+    </noscript>
   </section>
 
 </main>

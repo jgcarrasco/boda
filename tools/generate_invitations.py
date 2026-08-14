@@ -36,6 +36,15 @@ DEFAULT_FONT = ROOT / "tools" / "fonts" / "Brittany-Signature.ttf"
 HTML_TEMPLATE = ROOT / "index.html"
 ENVELOPE_TEMPLATE = ROOT / "assets" / "sobre-base.png"
 OUTPUT_ROOT = ROOT / "invitacion"
+WITNESS_IMAGE_DIR = ROOT / "assets" / "witness"
+
+# Calligraphic phrases rendered with Brittany only at build time (the font is
+# never served). The seal carries the JyP monogram, like the favicon.
+WITNESS_TEASER = "¡Espera!"
+WITNESS_TITLE = "testigo de nuestra boda"
+WITNESS_SEAL_TEXT = "JyP"
+WITNESS_INK = (161, 78, 48, 255)      # terracota del sobre
+WITNESS_PAPER = (250, 241, 232, 255)   # crema del sobre
 
 # The original lettering occupies approximately x=368..973, y=170..308.
 # Keep arbitrary capital swashes below the heart/branches and above the serif
@@ -284,10 +293,91 @@ def replace_once(source: str, old: str, new: str, label: str) -> str:
     return source.replace(old, new, 1)
 
 
-def generate_witness_section(witness_name: str) -> str:
+def render_witness_text(
+    text: str,
+    font_path: Path,
+    filename: str,
+    target_width: int,
+    bottom_pad_ratio: float = 0.0,
+) -> Path:
+    """Render a calligraphic phrase with Brittany, cropped, at 2x width."""
+
+    WITNESS_IMAGE_DIR.mkdir(parents=True, exist_ok=True)
+    font = ImageFont.truetype(str(font_path), size=220)
+    bbox = font.getbbox(text)
+    width = max(1, bbox[2] - bbox[0])
+    height = max(1, bbox[3] - bbox[1])
+    pad = 30
+    layer = Image.new(
+        "RGBA", (width + pad * 2, height + pad * 2), (0, 0, 0, 0)
+    )
+    draw = ImageDraw.Draw(layer)
+    draw.text((pad - bbox[0], pad - bbox[1]), text, font=font, fill=WITNESS_INK)
+    alpha_box = layer.getchannel("A").getbbox()
+    layer = layer.crop(alpha_box)
+    if layer.width > target_width:
+        new_height = max(1, round(layer.height * target_width / layer.width))
+        layer = layer.resize((target_width, new_height), Image.Resampling.LANCZOS)
+    if bottom_pad_ratio > 0:
+        pad_pixels = max(1, round(layer.height * bottom_pad_ratio))
+        padded = Image.new(
+            "RGBA",
+            (layer.width, layer.height + pad_pixels),
+            (0, 0, 0, 0),
+        )
+        padded.paste(layer, (0, 0), layer)
+        layer = padded
+    output = WITNESS_IMAGE_DIR / filename
+    layer.save(output, "PNG", optimize=True)
+    return output
+
+
+def render_witness_seal(font_path: Path) -> Path:
+    """Wax seal with the JyP monogram, like the favicon."""
+
+    WITNESS_IMAGE_DIR.mkdir(parents=True, exist_ok=True)
+    size = 180
+    font = ImageFont.truetype(str(font_path), size=108)
+    bbox = font.getbbox(WITNESS_SEAL_TEXT)
+    text_width = bbox[2] - bbox[0]
+    text_height = bbox[3] - bbox[1]
+
+    layer = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(layer)
+    draw.ellipse((3, 3, size - 3, size - 3), fill=WITNESS_INK)
+    draw.ellipse(
+        (13, 13, size - 13, size - 13),
+        outline=WITNESS_PAPER,
+        width=3,
+    )
+    x = (size - text_width) // 2 - bbox[0]
+    y = (size - text_height) // 2 - bbox[1]
+    draw.text((x, y), WITNESS_SEAL_TEXT, font=font, fill=WITNESS_PAPER)
+
+    output = WITNESS_IMAGE_DIR / "witness-seal.png"
+    layer.save(output, "PNG", optimize=True)
+    return output
+
+
+def generate_witness_section(
+    witness_name: str,
+    teaser_path: Path,
+    title_path: Path,
+    seal_path: Path,
+) -> str:
     """Return the lightweight interactive envelope used for wedding witnesses."""
 
     witness_escaped = html.escape(witness_name, quote=True)
+    with Image.open(teaser_path) as teaser:
+        teaser_w, teaser_h = teaser.size
+    with Image.open(title_path) as title:
+        title_w, title_h = title.size
+    with Image.open(seal_path) as seal:
+        seal_size = seal.size[0]
+
+    teaser_url = f"/assets/witness/{teaser_path.name}"
+    title_url = f"/assets/witness/{title_path.name}"
+    seal_url = f"/assets/witness/{seal_path.name}"
     return f'''  <section
     class="witness-section"
     id="witness-question"
@@ -309,16 +399,32 @@ def generate_witness_section(witness_name: str) -> str:
             aria-hidden="true">
             <span class="witness-heart" aria-hidden="true">♡</span>
             <span>Nos encantaría que fueras</span>
-            <strong>testigo de nuestra boda</strong>
+            <img
+              class="witness-title-img"
+              src="{title_url}"
+              alt="testigo de nuestra boda"
+              width="{title_w}"
+              height="{title_h}">
           </span>
           <span class="witness-envelope-flap" aria-hidden="true"></span>
           <span class="witness-envelope-front" aria-hidden="true"></span>
+          <img
+            class="witness-seal"
+            src="{seal_url}"
+            alt=""
+            width="{seal_size}"
+            height="{seal_size}">
           <span class="witness-envelope-teaser" aria-hidden="true">
-            <strong>¡Espera!</strong>
-            <span>Hay algo más que<br>tenemos que decirte…</span>
+            <img
+              class="witness-teaser-img"
+              src="{teaser_url}"
+              alt=""
+              width="{teaser_w}"
+              height="{teaser_h}">
           </span>
         </span>
       </button>
+      <p class="witness-teaser-line">Hay algo más que tenemos que decirte…</p>
       <p class="witness-tap">Toca el sobre para abrirlo</p>
     </div>
     <noscript>
@@ -327,6 +433,7 @@ def generate_witness_section(witness_name: str) -> str:
         .witness-envelope-flap,
         .witness-envelope-teaser,
         .witness-tap {{ display: none !important; }}
+        .witness-seal {{ display: none !important; }}
       </style>
     </noscript>
   </section>'''
@@ -341,6 +448,7 @@ def generate_html(
     description: str,
     image_filename: str,
     witness_name: str | None,
+    witness_images: dict[str, Path] | None = None,
 ) -> str:
     canonical = f"{site_url}/invitacion/{slug}/"
     image_url = f"{canonical}{image_filename}"
@@ -415,10 +523,19 @@ def generate_html(
     )
 
     if witness_name:
+        if not witness_images:
+            raise RuntimeError("Missing witness raster images")
         result = replace_once(
             result,
             "\n</main>",
-            f"\n\n{generate_witness_section(witness_name)}\n\n</main>",
+            "\n\n"
+            + generate_witness_section(
+                witness_name,
+                witness_images["teaser"],
+                witness_images["title"],
+                witness_images["seal"],
+            )
+            + "\n\n</main>",
             "main closing tag",
         )
         # Inside the normal ending, point softly towards the extra message.
@@ -462,6 +579,22 @@ def main() -> int:
     template = HTML_TEMPLATE.read_text(encoding="utf-8")
     generated = 0
 
+    witness_images: dict[str, Path] | None = None
+    if any(item.get("witness_name") for item in invitations):
+        witness_images = {
+            "teaser": render_witness_text(
+                WITNESS_TEASER,
+                font_path,
+                "witness-teaser.png",
+                460,
+                bottom_pad_ratio=0.22,
+            ),
+            "title": render_witness_text(
+                WITNESS_TITLE, font_path, "witness-title.png", 900
+            ),
+            "seal": render_witness_seal(font_path),
+        }
+
     for item in invitations:
         (
             slug,
@@ -488,6 +621,7 @@ def main() -> int:
             description,
             image_path.name,
             witness_name,
+            witness_images,
         )
         (output_directory / "index.html").write_text(page, encoding="utf-8")
         generated += 1

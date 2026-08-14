@@ -59,8 +59,7 @@
     },
     {
       "slug": "mari",
-      "names": "Mari",
-      "witness_name": "María"
+      "names": "Mari"
     },
     {
       "slug": "maria-jose-juanjo-y-familia",
@@ -108,7 +107,8 @@
     },
     {
       "slug": "mery",
-      "names": "Mery"
+      "names": "Mery",
+      "witness_name": "María"
     },
     {
       "slug": "laurita",
