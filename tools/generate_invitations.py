@@ -284,11 +284,25 @@ def replace_once(source: str, old: str, new: str, label: str) -> str:
     return source.replace(old, new, 1)
 
 
+def generate_witness_advance_cue() -> str:
+    return '''<a
+  class="witness-advance-cue"
+  href="#witness-question"
+  aria-label="Ir al mensaje especial">
+  <strong>¡Espera!</strong>
+  <span>Aún hay algo más</span>
+  <span class="witness-advance-arrow" aria-hidden="true">↓</span>
+</a>'''
+
+
 def generate_witness_section(witness_name: str) -> str:
     """Return the lightweight interactive envelope used for wedding witnesses."""
 
     witness_escaped = html.escape(witness_name, quote=True)
-    return f'''  <section class="witness-section" aria-label="Pregunta especial">
+    return f'''  <section
+    class="witness-section"
+    id="witness-question"
+    aria-label="Pregunta especial">
     <div class="witness-inner">
       <button
         class="witness-envelope"
@@ -415,7 +429,8 @@ def generate_html(
         result = replace_once(
             result,
             "\n</main>",
-            f"\n\n{generate_witness_section(witness_name)}\n\n</main>",
+            f"\n\n{generate_witness_section(witness_name)}\n\n</main>"
+            f"\n\n{generate_witness_advance_cue()}",
             "main closing tag",
         )
 
