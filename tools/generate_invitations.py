@@ -542,7 +542,7 @@ def generate_html(
         hint = (
             '\n        <div class="el text-el witness-hint" aria-hidden="true">\n'
             '          <span class="witness-hint-text">aún hay algo más…</span>\n'
-            '          <span class="witness-hint-arrows"><i></i><i></i></span>\n'
+            '          <span class="witness-hint-arrows"><i></i></span>\n'
             '        </div>'
         )
         result = replace_once(
