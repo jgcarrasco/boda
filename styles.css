@@ -763,16 +763,6 @@ body.scroll-cue-visible .scroll-cue {
   transform: rotate(152deg);
   pointer-events: none;
 }
-.witness-arch {
-  position: absolute;
-  z-index: 0;
-  left: 50%;
-  top: 50%;
-  width: min(84vw, 620px);
-  height: auto;
-  transform: translate(-50%, -52%);
-  pointer-events: none;
-}
 .witness-inner {
   position: relative;
   z-index: 1;
