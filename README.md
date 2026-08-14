@@ -60,9 +60,11 @@ python3 -m http.server 8080
 - **Animaciones**: `.text-el` controla la entrada de textos, `.media-el` la de
   imágenes y `script.js` activa cada sección con `IntersectionObserver`.
 - **Sobre y música**: la portada inicial reutiliza `assets/sobre.jpeg`. Al tocar
-  «Toca para abrir», comienza `assets/audio/cancion.mp3` desde una interacción
-  real (compatible con las políticas móviles) y se revela la web. El pequeño
-  icono inferior queda únicamente para pausar o reanudar. La música se pausa
+  «Toca para abrir», la web se revela de inmediato y comienza en segundo plano
+  la carga de `assets/audio/cancion.mp3` (`preload="none"`). La reproducción
+  arranca en cuanto el navegador tiene suficiente audio, sin bloquear la página
+  y manteniendo la interacción exigida por los móviles. El pequeño icono inferior
+  queda únicamente para pausar o reanudar. La música se pausa
   automáticamente si la pestaña o la app del navegador pasan a segundo plano o
   se cierran (eventos `visibilitychange` / `pagehide` en `script.js`), para que
   en el móvil nunca se siga oyendo al cerrar Safari o cambiar de app.
@@ -107,6 +109,12 @@ Para añadir otro:
 
    ```json
    { "slug": "ana-y-luis", "names": "Ana y Luis" }
+   ```
+
+   Para añadir al final la pregunta especial de los testigos:
+
+   ```json
+   { "slug": "ivan", "names": "Iván", "witness_name": "Iván" }
    ```
 
 2. Guarda una copia legítima de Brittany Signature en

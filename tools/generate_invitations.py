@@ -96,7 +96,9 @@ def load_configuration(path: Path) -> tuple[str, list[dict[str, Any]]]:
     return site_url, invitations
 
 
-def validate_invitation(item: dict[str, Any]) -> tuple[str, str, str, str, str]:
+def validate_invitation(
+    item: dict[str, Any],
+) -> tuple[str, str, str, str, str, str | None]:
     if not isinstance(item, dict):
         raise SystemExit("Every invitation entry must be a JSON object")
 
@@ -126,7 +128,15 @@ def validate_invitation(item: dict[str, Any]) -> tuple[str, str, str, str, str]:
             f"Una invitación de boda para {names}. 24 de julio de 2027.",
         )
     ).strip()
-    return slug, names, envelope_name, title, description
+
+    witness_value = item.get("witness_name")
+    witness_name = None
+    if witness_value is not None:
+        witness_name = " ".join(str(witness_value).split())
+        if not witness_name:
+            raise SystemExit(f"Invitation {slug!r} has an empty witness_name")
+
+    return slug, names, envelope_name, title, description, witness_name
 
 
 def render_text_layer(text: str, font_path: Path) -> tuple[Image.Image, int]:
@@ -274,6 +284,51 @@ def replace_once(source: str, old: str, new: str, label: str) -> str:
     return source.replace(old, new, 1)
 
 
+def generate_witness_section(witness_name: str) -> str:
+    """Return the lightweight interactive envelope used for wedding witnesses."""
+
+    witness_escaped = html.escape(witness_name, quote=True)
+    return f'''  <section class="witness-section" aria-label="Pregunta especial">
+    <div class="witness-inner">
+      <button
+        class="witness-envelope"
+        type="button"
+        aria-expanded="false"
+        aria-controls="witness-message"
+        aria-label="Abrir mensaje especial para {witness_escaped}">
+        <span class="witness-envelope-stage">
+          <span class="witness-envelope-back" aria-hidden="true"></span>
+          <span
+            class="witness-letter"
+            id="witness-message"
+            role="status"
+            aria-live="polite"
+            aria-hidden="true">
+            <span class="witness-heart" aria-hidden="true">♡</span>
+            <span>Nos encantaría que fueras</span>
+            <strong>testigo de nuestra boda</strong>
+          </span>
+          <span class="witness-envelope-flap" aria-hidden="true"></span>
+          <span class="witness-envelope-front" aria-hidden="true"></span>
+          <span class="witness-envelope-teaser" aria-hidden="true">
+            <strong>¡Espera!</strong>
+            <span>Hay algo más que<br>tenemos que decirte…</span>
+          </span>
+        </span>
+      </button>
+      <p class="witness-tap">Toca el sobre para abrirlo</p>
+    </div>
+    <noscript>
+      <style>
+        .witness-letter {{ transform: translateY(-80%) !important; }}
+        .witness-envelope-flap,
+        .witness-envelope-teaser,
+        .witness-tap {{ display: none !important; }}
+      </style>
+    </noscript>
+  </section>'''
+
+
 def generate_html(
     template: str,
     site_url: str,
@@ -282,6 +337,7 @@ def generate_html(
     title: str,
     description: str,
     image_filename: str,
+    witness_name: str | None,
 ) -> str:
     canonical = f"{site_url}/invitacion/{slug}/"
     image_url = f"{canonical}{image_filename}"
@@ -355,6 +411,14 @@ def generate_html(
         "Sobre de la invitación de boda de Jorge y Piedad", alt_text
     )
 
+    if witness_name:
+        result = replace_once(
+            result,
+            "\n</main>",
+            f"\n\n{generate_witness_section(witness_name)}\n\n</main>",
+            "main closing tag",
+        )
+
     # Both OG and Twitter image references must be static absolute URLs.
     if result.count(image_url) != 3:
         raise RuntimeError(
@@ -382,7 +446,14 @@ def main() -> int:
     generated = 0
 
     for item in invitations:
-        slug, names, envelope_name, title, description = validate_invitation(item)
+        (
+            slug,
+            names,
+            envelope_name,
+            title,
+            description,
+            witness_name,
+        ) = validate_invitation(item)
         if args.only and slug != args.only:
             continue
 
@@ -399,6 +470,7 @@ def main() -> int:
             title,
             description,
             image_path.name,
+            witness_name,
         )
         (output_directory / "index.html").write_text(page, encoding="utf-8")
         generated += 1

@@ -167,10 +167,56 @@
     </div>
   </section>
 
+
+  <section class="witness-section" aria-label="Pregunta especial">
+    <div class="witness-inner">
+      <button
+        class="witness-envelope"
+        type="button"
+        aria-expanded="false"
+        aria-controls="witness-message"
+        aria-label="Abrir mensaje especial para Iván">
+        <span class="witness-envelope-stage">
+          <span class="witness-envelope-back" aria-hidden="true"></span>
+          <span
+            class="witness-letter"
+            id="witness-message"
+            role="status"
+            aria-live="polite"
+            aria-hidden="true">
+            <span class="witness-heart" aria-hidden="true">♡</span>
+            <span>Nos encantaría que fueras</span>
+            <strong>testigo de nuestra boda</strong>
+          </span>
+          <span class="witness-envelope-flap" aria-hidden="true"></span>
+          <span class="witness-envelope-front" aria-hidden="true"></span>
+          <span class="witness-envelope-teaser" aria-hidden="true">
+            <strong>¡Espera!</strong>
+            <span>Hay algo más que<br>tenemos que decirte…</span>
+          </span>
+        </span>
+      </button>
+      <p class="witness-tap">Toca el sobre para abrirlo</p>
+    </div>
+    <noscript>
+      <style>
+        .witness-letter { transform: translateY(-80%) !important; }
+        .witness-envelope-flap,
+        .witness-envelope-teaser,
+        .witness-tap { display: none !important; }
+      </style>
+    </noscript>
+  </section>
+
 </main>
 
-<!-- La música comienza al tocar el sobre de entrada. -->
-<audio id="background-music" loop preload="auto">
+<div class="scroll-cue" aria-hidden="true">
+  <span>Desliza para continuar</span>
+  <span class="scroll-cue-arrow">↓</span>
+</div>
+
+<!-- La página se abre al instante; la música empieza a cargar con el toque. -->
+<audio id="background-music" loop preload="none">
   <source src="assets/audio/cancion.mp3" type="audio/mpeg">
 </audio>
 

@@ -616,6 +616,252 @@ body.invitation-locked .page {
   }
 }
 
+/* ---------- Gentle scroll hint after opening ---------- */
+.scroll-cue {
+  position: fixed;
+  z-index: 45;
+  left: 50%;
+  bottom: max(16px, calc(env(safe-area-inset-bottom) + 8px));
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: max-content;
+  max-width: calc(100vw - 120px);
+  padding: 9px 14px 8px;
+  border: 1px solid rgb(98 44 34 / 18%);
+  border-radius: 999px;
+  background: rgb(250 241 232 / 84%);
+  color: #622c22;
+  box-shadow: 0 4px 18px rgb(40 24 18 / 10%);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  font-size: clamp(12px, 3.4vw, 14px);
+  line-height: 1;
+  letter-spacing: .055em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translate(-50%, 9px);
+  transition:
+    opacity .55s ease,
+    visibility 0s linear .55s,
+    transform .55s cubic-bezier(.22, 1, .36, 1);
+}
+body.scroll-cue-visible .scroll-cue {
+  opacity: .72;
+  visibility: visible;
+  transform: translate(-50%, 0);
+  transition-delay: 0s;
+}
+.scroll-cue-arrow {
+  display: inline-block;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 18px;
+  line-height: .7;
+  animation: scroll-cue-bob 1.8s ease-in-out infinite;
+}
+@keyframes scroll-cue-bob {
+  0%, 100% { transform: translateY(-2px); }
+  50%      { transform: translateY(3px); }
+}
+
+/* ---------- Extra envelope shown only to the wedding witnesses ---------- */
+.witness-section {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: clamp(52px, 8vh, 96px) 16px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 16% 18%, rgb(171 166 148 / 13%) 0 2px, transparent 3px),
+    radial-gradient(circle at 84% 82%, rgb(161 78 48 / 12%) 0 2px, transparent 3px),
+    #f9f2ec;
+  color: #622c22;
+}
+.witness-section::before,
+.witness-section::after {
+  position: absolute;
+  z-index: -1;
+  color: rgb(110 111 81 / 24%);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(90px, 17vw, 210px);
+  line-height: 1;
+  pointer-events: none;
+}
+.witness-section::before {
+  content: '❧';
+  top: 4%;
+  left: 3%;
+  transform: rotate(-28deg);
+}
+.witness-section::after {
+  content: '❧';
+  right: 3%;
+  bottom: 3%;
+  transform: rotate(152deg);
+}
+.witness-inner {
+  width: min(680px, 94vw);
+  text-align: center;
+}
+.witness-envelope {
+  display: block;
+  width: 100%;
+  height: clamp(350px, 60vw, 470px);
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.witness-envelope-stage {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  perspective: 1200px;
+}
+.witness-envelope-back,
+.witness-envelope-front,
+.witness-envelope-flap {
+  position: absolute;
+  left: 5%;
+  width: 90%;
+}
+.witness-envelope-back {
+  z-index: 1;
+  top: 31%;
+  bottom: 5%;
+  border: 1px solid rgb(98 44 34 / 36%);
+  border-radius: 3px;
+  background: #efe1d4;
+  box-shadow: 0 18px 42px rgb(55 35 25 / 16%);
+  transition: box-shadow .45s ease, transform .45s ease;
+}
+.witness-letter {
+  position: absolute;
+  z-index: 3;
+  top: 28%;
+  right: 12%;
+  left: 12%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60%;
+  padding: clamp(24px, 5vw, 42px) clamp(18px, 5vw, 44px);
+  border: 1px solid rgb(98 44 34 / 22%);
+  border-radius: 2px;
+  background: #fffaf4;
+  box-shadow: 0 8px 26px rgb(55 35 25 / 12%);
+  font-family: 'Youngest Serif', serif;
+  font-size: clamp(17px, 3.7vw, 23px);
+  line-height: 1.35;
+  transform: translateY(13%);
+  transition: transform 1s cubic-bezier(.22, 1, .36, 1) .12s;
+}
+.witness-letter strong {
+  display: block;
+  margin-top: 6px;
+  font-family: 'Hertical Smooth', 'Youngest Serif', serif;
+  font-size: clamp(28px, 6vw, 46px);
+  font-weight: 400;
+  line-height: 1.05;
+}
+.witness-heart {
+  display: block;
+  margin-bottom: 8px;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(30px, 6vw, 44px);
+  line-height: 1;
+}
+.witness-envelope-flap {
+  z-index: 5;
+  top: 31%;
+  height: 43%;
+  background: #ead9ca;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  filter: drop-shadow(0 2px 1px rgb(98 44 34 / 16%));
+  transform: rotateX(0deg);
+  transform-origin: 50% 0;
+  backface-visibility: hidden;
+  transition: transform .8s cubic-bezier(.4, 0, .2, 1), opacity .2s linear .58s;
+}
+.witness-envelope-front {
+  z-index: 4;
+  top: 31%;
+  bottom: 5%;
+  border: 1px solid rgb(98 44 34 / 28%);
+  border-radius: 0 0 3px 3px;
+  background: #f4e7dc;
+  clip-path: polygon(0 0, 50% 52%, 100% 0, 100% 100%, 0 100%);
+}
+.witness-envelope-teaser {
+  position: absolute;
+  z-index: 6;
+  top: 52%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  width: 72%;
+  color: #622c22;
+  font-family: 'Youngest Serif', serif;
+  font-size: clamp(15px, 3.4vw, 21px);
+  line-height: 1.25;
+  transform: translateX(-50%);
+  transition: opacity .3s ease, transform .45s ease;
+}
+.witness-envelope-teaser strong {
+  margin-bottom: 5px;
+  font-family: 'Hertical Smooth', 'Youngest Serif', serif;
+  font-size: clamp(31px, 7vw, 50px);
+  font-weight: 400;
+  line-height: 1;
+}
+.witness-tap {
+  margin-top: -6px;
+  color: rgb(98 44 34 / 70%);
+  font-size: clamp(13px, 3.2vw, 16px);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  transition: opacity .3s ease;
+}
+.witness-envelope:hover .witness-envelope-back {
+  box-shadow: 0 22px 48px rgb(55 35 25 / 20%);
+  transform: translateY(-2px);
+}
+.witness-envelope:focus-visible {
+  outline: none;
+}
+.witness-envelope:focus-visible .witness-envelope-back {
+  box-shadow: 0 0 0 3px #f9f2ec, 0 0 0 6px rgb(98 44 34 / 50%), 0 18px 42px rgb(55 35 25 / 16%);
+}
+.witness-section.is-open .witness-envelope {
+  cursor: default;
+}
+.witness-section.is-open .witness-envelope-flap {
+  z-index: 2;
+  opacity: 0;
+  transform: rotateX(180deg);
+}
+.witness-section.is-open .witness-letter {
+  transform: translateY(-80%);
+}
+.witness-section.is-open .witness-envelope-teaser {
+  opacity: 0;
+  transform: translate(-50%, 10px);
+}
+.witness-section.is-open .witness-tap {
+  opacity: 0;
+}
+
 /* ---------- Discreet pause/resume control after opening ---------- */
 .music-toggle {
   position: fixed;
@@ -654,7 +900,8 @@ body.invitation-opened .music-toggle {
   transition-delay: 1.15s, 1.15s, 0s;
 }
 body.invitation-opened .music-toggle[data-state='paused'] { opacity: .62; }
-body.invitation-opened .music-toggle[data-state='waiting'] {
+body.invitation-opened .music-toggle[data-state='waiting'],
+body.invitation-opened .music-toggle[data-state='loading'] {
   opacity: .78;
   animation: music-ready-pulse 2.2s ease-out infinite;
 }
@@ -726,6 +973,13 @@ body.invitation-opened .music-toggle[data-state='waiting'] {
   .invitation-gate,
   .invitation-card,
   .invitation-prompt,
+  .scroll-cue,
+  .scroll-cue-arrow,
+  .witness-envelope-back,
+  .witness-letter,
+  .witness-envelope-flap,
+  .witness-envelope-teaser,
+  .witness-tap,
   .music-toggle,
   .music-equalizer i {
     animation: none !important;

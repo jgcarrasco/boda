@@ -141,7 +141,47 @@
   const invitationGate = document.querySelector('.invitation-gate');
   const invitationOpener = document.querySelector('.invitation-opener');
   const mainContent = document.querySelector('#main-content');
+  const scrollCue = document.querySelector('.scroll-cue');
   const gatedRegions = [mainContent].filter(Boolean);
+
+  let scrollCueTimer = 0;
+  let scrollCueDismissed = false;
+
+  function dismissScrollCue() {
+    if (scrollCueDismissed) return;
+    scrollCueDismissed = true;
+    window.clearTimeout(scrollCueTimer);
+    document.body.classList.remove('scroll-cue-visible');
+  }
+
+  function scheduleScrollCue() {
+    if (!scrollCue || scrollCueDismissed) return;
+    window.clearTimeout(scrollCueTimer);
+    scrollCueTimer = window.setTimeout(function () {
+      if (window.scrollY > 12) {
+        dismissScrollCue();
+        return;
+      }
+      document.body.classList.add('scroll-cue-visible');
+    }, 3000);
+  }
+
+  if (scrollCue) {
+    window.addEventListener('scroll', function () {
+      if (window.scrollY > 12) dismissScrollCue();
+    }, { passive: true });
+    window.addEventListener('wheel', function () {
+      if (document.body.classList.contains('invitation-opened')) dismissScrollCue();
+    }, { passive: true });
+    window.addEventListener('touchmove', function () {
+      if (document.body.classList.contains('invitation-opened')) dismissScrollCue();
+    }, { passive: true });
+    window.addEventListener('keydown', function (event) {
+      if (['ArrowDown', 'PageDown', 'End', ' '].includes(event.key)) {
+        dismissScrollCue();
+      }
+    });
+  }
 
   let startBackgroundMusic = function () {};
 
@@ -155,6 +195,7 @@
       const labels = {
         playing: 'Pausar música',
         paused: 'Reanudar música',
+        loading: 'Cargando música',
         waiting: 'Activar música'
       };
       const label = labels[state] || labels.waiting;
@@ -195,6 +236,7 @@
       playPending = true;
       intentionallyPaused = false;
       setVolume(0.03);
+      setMusicState('loading');
 
       let playResult;
       try {
@@ -317,6 +359,7 @@
       document.body.classList.remove('invitation-locked');
       gatedRegions.forEach(function (region) { region.inert = false; });
       if (musicButton) musicButton.inert = false;
+      scheduleScrollCue();
 
       function handleGateTransition(event) {
         if (event.target !== invitationGate || event.propertyName !== 'opacity') return;
@@ -339,6 +382,21 @@
     document.body.classList.add('invitation-opened');
     gatedRegions.forEach(function (region) { region.inert = false; });
     if (musicButton) musicButton.inert = false;
+    scheduleScrollCue();
+  }
+
+  // ---------- Extra envelope for selected wedding witnesses ----------
+  const witnessSection = document.querySelector('.witness-section');
+  const witnessEnvelope = witnessSection?.querySelector('.witness-envelope');
+  const witnessMessage = witnessSection?.querySelector('.witness-letter');
+
+  if (witnessSection && witnessEnvelope && witnessMessage) {
+    witnessEnvelope.addEventListener('click', function () {
+      witnessSection.classList.add('is-open');
+      witnessEnvelope.setAttribute('aria-expanded', 'true');
+      witnessEnvelope.setAttribute('aria-label', 'Mensaje especial abierto');
+      witnessMessage.setAttribute('aria-hidden', 'false');
+    }, { once: true });
   }
 
   // Keep the mobile browser chrome in harmony with the section currently shown.
@@ -352,6 +410,8 @@
       });
     }, { threshold: 0.55 });
 
-    sections.forEach(function (section) { colorObserver.observe(section); });
+    sections
+      .concat(Array.from(document.querySelectorAll('.witness-section')))
+      .forEach(function (section) { colorObserver.observe(section); });
   }
 })();
