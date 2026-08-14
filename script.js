@@ -389,7 +389,6 @@
   const witnessSection = document.querySelector('.witness-section');
   const witnessEnvelope = witnessSection?.querySelector('.witness-envelope');
   const witnessMessage = witnessSection?.querySelector('.witness-letter');
-  const witnessAdvanceCue = document.querySelector('.witness-advance-cue');
 
   if (witnessSection && witnessEnvelope && witnessMessage) {
     witnessEnvelope.addEventListener('click', function () {
@@ -398,32 +397,6 @@
       witnessEnvelope.setAttribute('aria-label', 'Mensaje especial abierto');
       witnessMessage.setAttribute('aria-hidden', 'false');
     }, { once: true });
-  }
-
-  if (witnessSection && witnessAdvanceCue && 'IntersectionObserver' in window) {
-    const closingSection = document.querySelector('.section-3');
-    let closingVisible = false;
-    let witnessVisible = false;
-
-    if (closingSection) {
-      const witnessCueObserver = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.target === closingSection) closingVisible = entry.isIntersecting;
-          if (entry.target === witnessSection) witnessVisible = entry.isIntersecting;
-        });
-        document.body.classList.toggle(
-          'witness-cue-visible',
-          closingVisible && !witnessVisible
-        );
-      }, { threshold: 0.18 });
-
-      witnessCueObserver.observe(closingSection);
-      witnessCueObserver.observe(witnessSection);
-    }
-
-    witnessAdvanceCue.addEventListener('click', function () {
-      document.body.classList.remove('witness-cue-visible');
-    });
   }
 
   // Keep the mobile browser chrome in harmony with the section currently shown.

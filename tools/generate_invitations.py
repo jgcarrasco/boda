@@ -284,17 +284,6 @@ def replace_once(source: str, old: str, new: str, label: str) -> str:
     return source.replace(old, new, 1)
 
 
-def generate_witness_advance_cue() -> str:
-    return '''<a
-  class="witness-advance-cue"
-  href="#witness-question"
-  aria-label="Ir al mensaje especial">
-  <strong>¡Espera!</strong>
-  <span>Aún hay algo más</span>
-  <span class="witness-advance-arrow" aria-hidden="true">↓</span>
-</a>'''
-
-
 def generate_witness_section(witness_name: str) -> str:
     """Return the lightweight interactive envelope used for wedding witnesses."""
 
@@ -429,9 +418,22 @@ def generate_html(
         result = replace_once(
             result,
             "\n</main>",
-            f"\n\n{generate_witness_section(witness_name)}\n\n</main>"
-            f"\n\n{generate_witness_advance_cue()}",
+            f"\n\n{generate_witness_section(witness_name)}\n\n</main>",
             "main closing tag",
+        )
+        # Inside the normal ending, point softly towards the extra message.
+        hint = (
+            '\n        <div class="el text-el witness-hint" aria-hidden="true">\n'
+            '          <span class="witness-hint-text">aún hay algo más…</span>\n'
+            '          <span class="witness-hint-arrows"><i></i><i></i></span>\n'
+            '        </div>'
+        )
+        result = replace_once(
+            result,
+            '        <div class="el text-el s3-t3">¡Te volveremos a escribir para contarte más detalles!</div>',
+            '        <div class="el text-el s3-t3">¡Te volveremos a escribir para contarte más detalles!</div>'
+            + hint,
+            "closing section text",
         )
 
     # Both OG and Twitter image references must be static absolute URLs.
