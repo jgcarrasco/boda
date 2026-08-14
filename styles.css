@@ -884,7 +884,7 @@ body.scroll-cue-visible .scroll-cue {
 }
 .witness-seal {
   position: absolute;
-  z-index: 4;
+  z-index: 7; /* sobre la solapa: visible mientras el sobre está cerrado */
   left: 50%;
   top: 58%;
   width: clamp(44px, 8vw, 58px);
@@ -892,7 +892,7 @@ body.scroll-cue-visible .scroll-cue {
   transform: translate(-50%, -50%);
   border-radius: 50%;
   box-shadow: 0 6px 16px rgb(55 35 25 / 30%);
-  transition: transform .45s ease;
+  transition: transform .45s ease, opacity .4s ease;
 }
 .witness-envelope:hover .witness-seal {
   transform: translate(-50%, -50%) scale(1.05);
@@ -920,7 +920,8 @@ body.scroll-cue-visible .scroll-cue {
   transform: translateY(-2px);
 }
 .witness-section.is-open .witness-seal {
-  transform: translate(-50%, -50%) scale(.96);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(.8);
   box-shadow: 0 4px 10px rgb(55 35 25 / 20%);
 }
 .witness-envelope:focus-visible {
