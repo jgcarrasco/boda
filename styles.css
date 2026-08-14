@@ -824,7 +824,7 @@ body.scroll-cue-visible .scroll-cue {
   font-family: 'Youngest Serif', serif;
   font-size: clamp(17px, 3.7vw, 23px);
   line-height: 1.4;
-  transform: translateY(13%);
+  transform: translateY(6%); /* dentro del sobre: no asoma ni arriba ni abajo */
   transition: transform 1s cubic-bezier(.22, 1, .36, 1) .12s;
 }
 .witness-title-img {
