@@ -33,13 +33,15 @@ except ImportError as error:  # pragma: no cover - useful message on a new machi
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CONFIG = ROOT / "invitaciones.json"
 DEFAULT_FONT = ROOT / "tools" / "fonts" / "Brittany-Signature.ttf"
+DEFAULT_WITNESS_FONT = ROOT / "tools" / "fonts" / "Dancing-Script.ttf"
 HTML_TEMPLATE = ROOT / "index.html"
 ENVELOPE_TEMPLATE = ROOT / "assets" / "sobre-base.png"
 OUTPUT_ROOT = ROOT / "invitacion"
 WITNESS_IMAGE_DIR = ROOT / "assets" / "witness"
 
-# Calligraphic phrases rendered with Brittany only at build time (the font is
-# never served). The seal carries the JyP monogram, like the favicon.
+# Calligraphic phrases rendered with Dancing Script (OFL) only at build time
+# (the font is never served). The seal carries the JyP monogram, like the
+# favicon. Brittany is kept for the recipient names on the envelope.
 WITNESS_TEASER = "¡Espera!"
 WITNESS_TITLE = "testigo de nuestra boda"
 WITNESS_SEAL_TEXT = "JyP"
@@ -79,6 +81,13 @@ def parse_args() -> argparse.Namespace:
         type=Path,
         default=Path(os.environ.get("INVITATION_FONT", DEFAULT_FONT)),
         help="Path to a licensed Brittany Signature TTF/OTF file.",
+    )
+    parser.add_argument(
+        "--witness-font",
+        type=Path,
+        default=Path(os.environ.get("INVITATION_WITNESS_FONT", DEFAULT_WITNESS_FONT)),
+        help="Path to a licensed cursive font for the witness phrases "
+        "(default: Dancing Script).",
     )
     parser.add_argument(
         "--only",
@@ -565,6 +574,7 @@ def main() -> int:
     args = parse_args()
     config_path = args.config.resolve()
     font_path = args.font.expanduser().resolve()
+    witness_font_path = args.witness_font.expanduser().resolve()
 
     if not font_path.is_file():
         raise SystemExit(
@@ -581,18 +591,24 @@ def main() -> int:
 
     witness_images: dict[str, Path] | None = None
     if any(item.get("witness_name") for item in invitations):
+        if not witness_font_path.is_file():
+            raise SystemExit(
+                f"Witness font not found: {witness_font_path}\n"
+                "Put a licensed file at tools/fonts/Dancing-Script.ttf, set "
+                "INVITATION_WITNESS_FONT, or pass --witness-font."
+            )
         witness_images = {
             "teaser": render_witness_text(
                 WITNESS_TEASER,
-                font_path,
+                witness_font_path,
                 "witness-teaser.png",
                 460,
                 bottom_pad_ratio=0.22,
             ),
             "title": render_witness_text(
-                WITNESS_TITLE, font_path, "witness-title.png", 900
+                WITNESS_TITLE, witness_font_path, "witness-title.png", 900
             ),
-            "seal": render_witness_seal(font_path),
+            "seal": render_witness_seal(witness_font_path),
         }
 
     for item in invitations:

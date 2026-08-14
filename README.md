@@ -159,9 +159,11 @@ controla la caligrafía del sobre.
 - **Youngest Serif** — cuerpo (párrafos)
 - **Hertical Smooth** — titulares (Etiqueta, alojamiento, menú, ¡reserva el día!)
 - **Fineday Two** — la frase «Gracias por formar parte de la nuestra»
-- **Brittany Signature** — nombres de destinatarios y la caligrafía del sobre de
-  testigos («¡Espera!», «testigo de nuestra boda», sello JyP), rasterizada
-  localmente; nunca se sirve ni se incluye en el repositorio
+- **Brittany Signature** — nombres de destinatarios, rasterizada localmente;
+  nunca se sirve ni se incluye en el repositorio
+- **Dancing Script** (OFL) — caligrafía del sobre de testigos («¡Espera!»,
+  «testigo de nuestra boda», sello JyP), más legible que Brittany; rasterizada
+  localmente, nunca se sirve ni se incluye en el repositorio
 
 ## Colores de la paleta
 
